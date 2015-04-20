@@ -1,0 +1,25 @@
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+  controllerName="sap.ui.demo.tracker.view.IssueList"
+	displayBlock="true"
+	xmlns="sap.m">
+  <Table items="{ path: '/Issues'}" mode="Delete" delete="handleDelete">
+    <headerToolbar>
+      <Toolbar><Text text="{i18n>ISSUELIST_TITLE}" /></Toolbar>
+    </headerToolbar>
+    <columns>
+      <Column>
+        <Text text="{i18n>ISSUELIST_ISSUE_COLUMN_HEADER}" />
+      </Column>
+    </columns>
+    <items>
+      <ColumnListItem>
+        <cells>
+          <ObjectIdentifier
+            title="{Name}"
+            text="{Description}"/>
+        </cells>
+      </ColumnListItem>
+    </items>
+  </Table>
+</mvc:View>
