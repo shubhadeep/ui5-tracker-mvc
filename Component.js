@@ -72,7 +72,7 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
     }
 
     // Create and set domain model to the component
-    var oModel = new sap.ui.model.odata.ODataModel(sServiceUrl, true);
+    var oModel = new sap.ui.model.odata.v2.ODataModel(sServiceUrl, true);
     this.setModel(oModel);
 
     this.getRouter().initialize();

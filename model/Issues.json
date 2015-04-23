@@ -5,6 +5,7 @@
     "Description":"Application is not rendering in Internet Explorer 8; please help",
     "Created":"\/Date(694224000000)\/",
     "Priority":1,
+    "Type": "Defect",
     "Owner":"John Doe",
     "Status": "New"
   },
@@ -14,7 +15,18 @@
     "Description":"Please implement versioning of issues. I want to track changes made, and possibly revert to previous versions",
     "Created":"\/Date(694224003001)\/",
     "Priority":2,
+    "Type": "Feature Request",
     "Owner":"Mary Jane",
     "Status": "In Progress"
+  },
+  {
+    "ID":3,
+    "Name":"Need ability to upload images to issues",
+    "Description":"Currently issue descriptions are text-only. Images are worth 1000 words!",
+    "Created":"\/Date(694224903401)\/",
+    "Priority":2,
+    "Type": "Feature Request",
+    "Owner":"Mary Jane",
+    "Status": "New"
   }
 ]

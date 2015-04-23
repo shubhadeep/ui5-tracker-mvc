@@ -9,10 +9,11 @@
         <Property Name="ID" Type="Edm.Int32" Nullable="false" />
         <Property Name="Name" Type="Edm.String" Nullable="true" m:FC_TargetPath="SyndicationTitle" m:FC_ContentKind="text" m:FC_KeepInContent="false" />
         <Property Name="Description" Type="Edm.String" Nullable="true" m:FC_TargetPath="SyndicationSummary" m:FC_ContentKind="text" m:FC_KeepInContent="false" />
+        <Property Name="Type" Type="Edm.String" Nullable="false" />
         <Property Name="Created" Type="Edm.DateTime" Nullable="false" />
         <Property Name="Priority" Type="Edm.Int32" Nullable="false" />
         <Property Name="Owner" Type="Edm.String" Nullable="true" />
-        <Property Name="Status" Type="Edm.String" Nullable="true" />
+        <Property Name="Status" Type="Edm.String" Nullable="false" />
       </EntityType>
       <EntityContainer Name="IssueTrackerService" m:IsDefaultEntityContainer="true">
         <EntitySet Name="Issues" EntityType="IssueTracker.Issue" />
