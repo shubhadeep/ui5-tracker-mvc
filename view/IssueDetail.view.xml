@@ -1,0 +1,21 @@
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+  xmlns:form="sap.ui.layout.form"
+  controllerName="sap.ui.demo.tracker.view.IssueDetail"
+	displayBlock="true"
+	xmlns="sap.m">
+  <form:SimpleForm>
+    <form:content>
+      <Label text="Title" />
+      <Text text="{Name}" />
+      <Label text="Description" />
+      <Text text="{Description}" />
+      <Label text="Priority" />
+      <Text text="{Priority}" />
+      <Label text="Owner" />
+      <Text text="{Owner}" />
+      <Label text="Created" />
+      <Text text="{Created}" />
+    </form:content>
+  </form:SimpleForm>
+</mvc:View>

@@ -1,0 +1,8 @@
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+  xmlns:form="sap.ui.layout.form"
+	displayBlock="true"
+	xmlns="sap.m">
+  <MessagePage description="" showHeader="false">
+  </MessagePage>
+</mvc:View>
