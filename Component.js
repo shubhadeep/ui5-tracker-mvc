@@ -33,8 +33,18 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
       routes: [
         {
           pattern: "",
-          name: "main",
+          name: "list",
           view: "IssueList"
+        },
+        {
+          pattern: "/issue/:issueId:",
+          name: "issue",
+          view: "IssueDetail"
+        },
+        {
+          name: "catchAllMaster",
+          view: "NotFound",
+          pattern: ":all*:"
         }
       ]
     }

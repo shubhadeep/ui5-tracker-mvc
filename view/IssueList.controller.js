@@ -1,5 +1,12 @@
 /*global sap */
 sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
+  onInit: function () {
+    "use strict";
+    sap.ui.core.UIComponent.getRouterFor(this).attachRouteMatched(this.onRouteMatched, this);
+  },
+  onRouteMatched: function (e) {
+    "use strict";
+  },
   handleDelete: function (e) {
     "use strict";
     var oList = e.getSource(),
