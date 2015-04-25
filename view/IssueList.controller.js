@@ -17,16 +17,23 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
 
     // send a delete request to the odata service
     this.getView().getModel().remove(sPath, {
-      success: this.onDeleteIssueSuccess,
+      success: this.onDeleteIssueSuccess.bind(this),
       error: this.onDeleteIssueError
     });
   },
   onDeleteIssueSuccess: function (data, response) {
     "use strict";
-    sap.m.MessageToast.show("Deleted");
+    sap.m.MessageToast.show(this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE"));
   },
   onDeleteIssueError: function (error) {
     "use strict";
-    sap.m.MessageToast.show("Error");
+    sap.m.MessageToast.show(this.getI18nText("ISSUE_DELETE_ERROR_MESSAGE"));
+  },
+  getI18nText: function (key) {
+    "use strict";
+    return this.getOwnerComponent()
+               .getModel('i18n')
+               .getResourceBundle()
+               .getText(key);
   }
 });

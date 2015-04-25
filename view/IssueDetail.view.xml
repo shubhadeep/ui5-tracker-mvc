@@ -6,15 +6,15 @@
 	xmlns="sap.m">
   <form:SimpleForm>
     <form:content>
-      <Label text="Title" />
+      <Label text="{i18n>ISSUE_DETAIL_TITLE}" />
       <Text text="{Name}" />
-      <Label text="Description" />
+      <Label text="{i18n>ISSUE_DETAIL_DESCRIPTION}" />
       <Text text="{Description}" />
-      <Label text="Priority" />
+      <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" />
       <Text text="{Priority}" />
-      <Label text="Owner" />
+      <Label text="{i18n>ISSUE_DETAIL_OWNER}" />
       <Text text="{Owner}" />
-      <Label text="Created" />
+      <Label text="{i18n>ISSUE_DETAIL_CREATED}" />
       <Text text="{Created}" />
     </form:content>
   </form:SimpleForm>
