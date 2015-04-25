@@ -21,6 +21,13 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
       error: this.onDeleteIssueError
     });
   },
+  handleIssueItemPress: function (e) {
+    "use strict";
+    var detailPath = e.getSource().getBindingContextPath();
+    sap.ui.core.UIComponent.getRouterFor(this).navTo("detail",
+      {issueId: this.getIssueIdFromBindingPath(detailPath)},
+      true);
+  },
   onDeleteIssueSuccess: function (data, response) {
     "use strict";
     sap.m.MessageToast.show(this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE"));
@@ -32,8 +39,12 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
   getI18nText: function (key) {
     "use strict";
     return this.getOwnerComponent()
-               .getModel('i18n')
+               .getModel("i18n")
                .getResourceBundle()
                .getText(key);
+  },
+  getIssueIdFromBindingPath: function (bindingPath) {
+    "use strict";
+    return bindingPath.split("/Issues(")[1].split(")")[0];
   }
 });

@@ -3,7 +3,7 @@
   controllerName="sap.ui.demo.tracker.view.IssueList"
 	displayBlock="true"
 	xmlns="sap.m">
-  <Table items="{ path: '/Issues'}" mode="Delete" delete="handleDelete">
+  <Table items="{path: '/Issues'}" mode="Delete" delete="handleDelete">
     <headerToolbar>
       <Toolbar><Text text="{i18n>ISSUELIST_TITLE}" /></Toolbar>
     </headerToolbar>
@@ -13,7 +13,7 @@
       </Column>
     </columns>
     <items>
-      <ColumnListItem>
+      <ColumnListItem type="Active" press="handleIssueItemPress">
         <cells>
           <ObjectIdentifier
             title="{Name}"

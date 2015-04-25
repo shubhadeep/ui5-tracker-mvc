@@ -37,8 +37,8 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
           view: "IssueList"
         },
         {
-          pattern: "/issue/:issueId:",
-          name: "issue",
+          pattern: "issue/{issueId}",
+          name: "detail",
           view: "IssueDetail"
         },
         {
@@ -87,8 +87,16 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
     var oModel = new sap.ui.model.odata.v2.ODataModel(sServiceUrl, true);
     this.setModel(oModel);
 
+    this.routeHandler = new sap.m.routing.RouteMatchedHandler(this.getRouter());
     this.getRouter().initialize();
 
+  },
+  destroy: function () {
+    "use strict";
+    if (this.routeHandler) {
+      this.routeHandler.destroy();
+    }
+    sap.ui.core.UIComponent.destroy.apply(this, arguments);
   }
 
 });
