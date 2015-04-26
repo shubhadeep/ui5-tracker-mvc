@@ -8,27 +8,19 @@
   <Page>
     <form:SimpleForm>
       <form:content>
+        <Title text="{i18n>ADD_ISSUE_TITLE}" />
         <Label text="{i18n>ISSUE_DETAIL_TITLE}" />
-        <Input text="{Name}" />
+        <Input text="{newIssue>Name}" />
         <Label text="{i18n>ISSUE_DETAIL_DESCRIPTION}" />
-        <Input text="{Description}" />
+        <Input text="{newIssue>Description}" />
         <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" />
-        <Select>
-          <items>
-            <core:Item text="High" />
-            <core:Item text="Medium" />
-            <core:Item text="Low" />
-          </items>
+        <Select items="{newIssueOptions>/priorities}">
+          <core:Item text="{newIssueOptions>priority}" key="{newIssueOptions>key}" />
         </Select>
         <Label text="{i18n>ISSUE_DETAIL_OWNER}" />
-        <Select>
-          <items>
-            <core:Item text="John Smith" />
-            <core:Item text="Mary Jane" />
-            <core:Item text="Jane Doe" />
-          </items>
+        <Select items="{newIssueOptions>/owners}" >
+          <core:Item text="{newIssueOptions>owner}" key="{newIssueOptions>key}" />
         </Select>
-        <Text text="{Owner}" />
       </form:content>
     </form:SimpleForm>
     <footer>
