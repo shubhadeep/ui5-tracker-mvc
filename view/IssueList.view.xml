@@ -3,23 +3,32 @@
   controllerName="sap.ui.demo.tracker.view.IssueList"
 	displayBlock="true"
 	xmlns="sap.m">
-  <Table items="{path: '/Issues'}" mode="Delete" delete="handleDelete">
-    <headerToolbar>
-      <Toolbar><Text text="{i18n>ISSUELIST_TITLE}" /></Toolbar>
-    </headerToolbar>
-    <columns>
-      <Column>
-        <Text text="{i18n>ISSUELIST_ISSUE_COLUMN_HEADER}" />
-      </Column>
-    </columns>
-    <items>
-      <ColumnListItem type="Active" press="handleIssueItemPress">
-        <cells>
-          <ObjectIdentifier
-            title="{Name}"
-            text="{Description}"/>
-        </cells>
-      </ColumnListItem>
-    </items>
-  </Table>
+  <Page>
+    <Table items="{path: '/Issues'}" mode="Delete" delete="handleDelete">
+      <headerToolbar>
+        <Toolbar><Text text="{i18n>ISSUELIST_TITLE}" /></Toolbar>
+      </headerToolbar>
+      <columns>
+        <Column>
+          <Text text="{i18n>ISSUELIST_ISSUE_COLUMN_HEADER}" />
+        </Column>
+      </columns>
+      <items>
+        <ColumnListItem type="Active" press="handleIssueItemPress">
+          <cells>
+            <ObjectIdentifier
+              title="{Name}"
+              text="{Description}"/>
+          </cells>
+        </ColumnListItem>
+      </items>
+    </Table>
+    <footer>
+      <Bar>
+        <contentRight>
+          <Button text="{i18n>ISSUELIST_CREATE_BUTTON_TEXT}" press="handleCreatePress" />
+        </contentRight>
+      </Bar>
+    </footer>
+  </Page>
 </mvc:View>

@@ -31,6 +31,10 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
                                 issueId: this.getIssueIdFromBindingPath(detailPath)
                             });
   },
+  handleCreatePress: function (e) {
+    "use strict";
+    sap.ui.core.UIComponent.getRouterFor(this).navTo("create");
+  },
   onDeleteIssueSuccess: function (data, response) {
     "use strict";
     sap.m.MessageToast.show(this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE"));

@@ -4,18 +4,28 @@
   controllerName="sap.ui.demo.tracker.view.IssueDetail"
 	displayBlock="true"
 	xmlns="sap.m">
-  <form:SimpleForm>
-    <form:content>
-      <Label text="{i18n>ISSUE_DETAIL_TITLE}" />
-      <Text text="{Name}" />
-      <Label text="{i18n>ISSUE_DETAIL_DESCRIPTION}" />
-      <Text text="{Description}" />
-      <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" />
-      <Text text="{Priority}" />
-      <Label text="{i18n>ISSUE_DETAIL_OWNER}" />
-      <Text text="{Owner}" />
-      <Label text="{i18n>ISSUE_DETAIL_CREATED}" />
-      <Text text="{Created}" />
-    </form:content>
-  </form:SimpleForm>
+  <Page>
+    <form:SimpleForm>
+      <form:content>
+        <Label text="{i18n>ISSUE_DETAIL_TITLE}" />
+        <Text text="{Name}" />
+        <Label text="{i18n>ISSUE_DETAIL_DESCRIPTION}" />
+        <Text text="{Description}" />
+        <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" />
+        <Text text="{Priority}" />
+        <Label text="{i18n>ISSUE_DETAIL_OWNER}" />
+        <Text text="{Owner}" />
+        <Label text="{i18n>ISSUE_DETAIL_CREATED}" />
+        <Text text="{Created}" />
+      </form:content>
+    </form:SimpleForm>
+    <footer>
+      <Bar>
+        <contentRight>
+          <Button text="{i18n>ISSUEDETAIL_EDIT_BUTTON_TEXT}" press="handleEditPress" />
+          <Button text="{i18n>ISSUEDETAIL_DELETE_BUTTON_TEXT}" press="handleDeletePress" />
+        </contentRight>
+      </Bar>
+    </footer>
+  </Page>
 </mvc:View>

@@ -34,12 +34,20 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
         {
           pattern: "",
           name: "list",
-          view: "IssueList"
+          view: "IssueList",
+          viewLevel: 0
         },
         {
           pattern: "issue/{issueId}",
           name: "detail",
-          view: "IssueDetail"
+          view: "IssueDetail",
+          viewLevel: 1
+        },
+        {
+          pattern: "create",
+          name: "create",
+          view: "IssueCreate",
+          viewLevel: 1
         },
         {
           name: "catchAllMaster",
