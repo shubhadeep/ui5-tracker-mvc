@@ -2,7 +2,8 @@
 sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
   onInit: function () {
     "use strict";
-    sap.ui.core.UIComponent.getRouterFor(this).attachRouteMatched(this.onRouteMatched, this);
+    sap.ui.core.UIComponent.getRouterFor(this)
+                           .attachRouteMatched(this.onRouteMatched, this);
   },
   onRouteMatched: function (e) {
     "use strict";
@@ -10,7 +11,7 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
   handleDelete: function (e) {
     "use strict";
     var oList = e.getSource(),
-        sPath = e.getParameter("listItem").getBindingContext().getPath();
+        sPath = e.getParameter("listItem").getBindingContextPath();
 
     // after deletion put the focus back to the list
     oList.attachEventOnce("updateFinished", oList.focus, oList);
@@ -24,9 +25,11 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
   handleIssueItemPress: function (e) {
     "use strict";
     var detailPath = e.getSource().getBindingContextPath();
-    sap.ui.core.UIComponent.getRouterFor(this).navTo("detail",
-      {issueId: this.getIssueIdFromBindingPath(detailPath)},
-      true);
+
+    sap.ui.core.UIComponent.getRouterFor(this)
+                           .navTo("detail", {
+                                issueId: this.getIssueIdFromBindingPath(detailPath)
+                            });
   },
   onDeleteIssueSuccess: function (data, response) {
     "use strict";

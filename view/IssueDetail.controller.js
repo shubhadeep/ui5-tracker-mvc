@@ -11,12 +11,7 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueDetail", {
     if (!routeParameters.name === "detail") {
       return;
     }
-    if ("issueId" in routeParameters.arguments) {
-      issueBindingPath = "/Issues(" + routeParameters.arguments.issueId + ")";
-      this.getView().bindElement(issueBindingPath);
-    }
-    else {
-      sap.ui.core.UIComponent.getRouterFor(this).navTo("NotFound");
-    }
+    issueBindingPath = "/Issues(" + routeParameters.arguments.issueId + ")";
+    this.getView().bindElement(issueBindingPath);
   }
 });
