@@ -1,5 +1,6 @@
 /*global jQuery, sap */
 jQuery.sap.declare("sap.ui.demo.tracker.Component");
+jQuery.sap.require("sap.ui.demo.tracker.model.IssueModel");
 
 sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
   metadata: {
@@ -85,14 +86,14 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
       });
       oMockServer.simulate("model/metadata.xml", "model/");
       oMockServer.start();
-
+      debugger;
       sap.m.MessageToast.show("Running in demo mode with mock data.", {
         duration: 2000
       });
     }
 
     // Create and set domain model to the component
-    var oModel = new sap.ui.model.odata.v2.ODataModel(sServiceUrl, true);
+    var oModel = new sap.ui.demo.tracker.model.IssueModel(sServiceUrl, true);
     this.setModel(oModel);
 
     this.routeHandler = new sap.m.routing.RouteMatchedHandler(this.getRouter());
