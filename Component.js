@@ -86,7 +86,6 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
       });
       oMockServer.simulate("model/metadata.xml", "model/");
       oMockServer.start();
-      debugger;
       sap.m.MessageToast.show("Running in demo mode with mock data.", {
         duration: 2000
       });
