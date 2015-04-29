@@ -1,40 +1,24 @@
 /*global window, sap, jQuery */
 jQuery.sap.require("sap.m.MessageBox");
+jQuery.sap.require("sap.ui.demo.tracker.model.CreateIssueModel");
 
 sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
   onInit: function () {
     "use strict";
-    var newIssueOptions = {
-          priorities: [
-            { priority: "Select Priority", key: "" },
-            { priority: "High", key: "High" },
-            { priority: "Medium", key: "Medium" },
-            { priority: "Low", key: "Low" }
-          ],
-          owners: [
-            { owner: "Select owner", key: "" },
-            { owner: "John Smith", key: "01" },
-            { owner: "Mary Jane", key: "02" },
-            { owner: "Jane Doe", key: "03" }
-          ]
-        };
+    var newIssueModel = new sap.ui.demo.tracker.model.CreateIssueModel();
+    newIssueModel.setData(newIssueModel.data);
 
-    this.getView().setModel(new sap.ui.model.json.JSONModel(newIssueOptions), "newIssueOptions");
+    this.getView()
+        .setModel(newIssueModel, "newIssue");
 
-    this.getView().setModel(new sap.ui.model.json.JSONModel(this.newIssueData), "newIssue");
-    sap.ui.core.UIComponent.getRouterFor(this).attachRouteMatched(this.onRouteMatched, this);
+    sap.ui.core.UIComponent.getRouterFor(this)
+                           .attachRouteMatched(this.onRouteMatched, this);
 
-  },
-  newIssueData: {
-    Detail: {
-      Name: "",
-      Description: "",
-      Priority: "",
-      Owner: ""
-    }
   },
   onRouteMatched: function (e) {
     "use strict";
+    // TODO
+    return;
   },
   handleCancelPress: function (e) {
     "use strict";
@@ -42,19 +26,20 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
   },
   handleSavePress: function (e) {
     "use strict";
-    this.getView()
-        .getModel()
-        .create("/Issues",
-          this.getNewIssueData(),
-          {
-            success: this.onIssueCreatedSuccess.bind(this),
-            error: this.showBackendError
-          });
+    var view = this.getView(),
+        issueModel = view.getModel(),
+        newIssue = view.getModel("newIssue").getNewIssueObject();
+
+    issueModel.create(issueModel.getEntitySetPath(), newIssue, {
+      success: this.onIssueCreatedSuccess.bind(this),
+      error: this.showBackendError
+    });
   },
   getNewIssueData: function () {
     "use strict";
     var view = this.getView(),
-        newIssue = view.getModel("newIssue").getData().Detail;
+        newIssue = view.getModel("newIssue")
+                       .getNewIssueObject();
 
     newIssue.Created = new Date();
     return newIssue;
@@ -62,10 +47,14 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
   onIssueCreatedSuccess: function (obj, response) {
     "use strict";
     sap.ui.core.UIComponent.getRouterFor(this).navTo("detail", {issueId: obj.ID});
+
     window.setTimeout(function () {
       sap.m.MessageToast.show("Created new issue", { duration: 2000 });
     }, 0);
-    this.initializeNewIssue(this.newIssueData);
+
+    this.getView()
+        .getModel("newIssue")
+        .initializeNewIssue();
   },
   showBackendError: function (error) {
     "use strict";
@@ -83,9 +72,5 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
                .getModel("i18n")
                .getResourceBundle()
                .getText(key);
-  },
-  initializeNewIssue: function (data) {
-    "use strict";
-    this.getView().getModel("newIssue").setData(data);
   }
 });

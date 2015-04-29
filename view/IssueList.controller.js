@@ -15,25 +15,34 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
 
     // after deletion put the focus back to the list
     oList.attachEventOnce("updateFinished", oList.focus, oList);
+    this.deleteIssue(sPath);
 
+  },
+  deleteIssue: function (issueContextPath) {
+    "use strict";
     // send a delete request to the odata service
-    this.getView().getModel().remove(sPath, {
+    this.getView().getModel().remove(issueContextPath, {
       success: this.onDeleteIssueSuccess.bind(this),
       error: this.onDeleteIssueError
     });
   },
   handleIssueItemPress: function (e) {
     "use strict";
-    var detailPath = e.getSource().getBindingContextPath();
+    var detailPath = e.getSource()
+                      .getBindingContextPath(),
+        issueId = this.getView()
+                      .getModel()
+                      .getIssueIdByBindingPath(detailPath);
 
     sap.ui.core.UIComponent.getRouterFor(this)
                            .navTo("detail", {
-                                issueId: this.getIssueIdFromBindingPath(detailPath)
+                                issueId: issueId
                             });
   },
   handleCreatePress: function (e) {
     "use strict";
-    sap.ui.core.UIComponent.getRouterFor(this).navTo("create");
+    sap.ui.core.UIComponent.getRouterFor(this)
+                           .navTo("create");
   },
   onDeleteIssueSuccess: function (data, response) {
     "use strict";
@@ -49,9 +58,5 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
                .getModel("i18n")
                .getResourceBundle()
                .getText(key);
-  },
-  getIssueIdFromBindingPath: function (bindingPath) {
-    "use strict";
-    return bindingPath.split("/Issues(")[1].split(")")[0];
   }
 });
