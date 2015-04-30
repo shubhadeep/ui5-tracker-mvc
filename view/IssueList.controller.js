@@ -32,7 +32,7 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
                       .getBindingContextPath(),
         issueId = this.getView()
                       .getModel()
-                      .getIssueIdByBindingPath(detailPath);
+                      .getIdByBindingPath(detailPath);
 
     sap.ui.core.UIComponent.getRouterFor(this)
                            .navTo("detail", {

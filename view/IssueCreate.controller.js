@@ -22,31 +22,25 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
   },
   handleCancelPress: function (e) {
     "use strict";
-    sap.ui.core.UIComponent.getRouterFor(this).navTo("list");
+    sap.ui.core.UIComponent.getRouterFor(this)
+                           .navTo("list");
   },
   handleSavePress: function (e) {
-    "use strict";
-    var view = this.getView(),
-        issueModel = view.getModel(),
-        newIssue = view.getModel("newIssue").getNewIssueObject();
-
-    issueModel.create(issueModel.getEntitySetPath(), newIssue, {
-      success: this.onIssueCreatedSuccess.bind(this),
-      error: this.showBackendError
-    });
-  },
-  getNewIssueData: function () {
     "use strict";
     var view = this.getView(),
         newIssue = view.getModel("newIssue")
                        .getNewIssueObject();
 
-    newIssue.Created = new Date();
-    return newIssue;
+    view.getModel()
+        .createNew(newIssue, {
+          success: this.onIssueCreatedSuccess.bind(this),
+          error: this.showBackendError
+        });
   },
   onIssueCreatedSuccess: function (obj, response) {
     "use strict";
-    sap.ui.core.UIComponent.getRouterFor(this).navTo("detail", {issueId: obj.ID});
+    sap.ui.core.UIComponent.getRouterFor(this)
+                          .navTo("detail", {issueId: obj.ID});
 
     window.setTimeout(function () {
       sap.m.MessageToast.show("Created new issue", { duration: 2000 });
