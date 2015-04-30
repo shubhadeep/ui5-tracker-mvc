@@ -18,7 +18,7 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
       resourceBundle: "i18n/messageBundle.properties",
       serviceConfig: {
         name: "Northwind",
-        serviceUrl: "/uilib-sample/proxy/http/services.odata.org/V2/(S(demotrackerapp))/OData/OData.svc/"
+        serviceUrl: "/OData/OData.svc/"
       }
     },
 
@@ -61,43 +61,21 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
 
   init: function() {
     "use strict";
+    var mConfig, sServiceUrl;
+
     sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
 
-    var mConfig = this.getMetadata().getConfig();
+    mConfig = this.getMetadata().getConfig();
+    this.setI18nModel(mConfig);
+    sServiceUrl = mConfig.serviceConfig.serviceUrl;
 
-    // always use absolute paths relative to our own component
-    // (relative paths will fail if running in the Fiori Launchpad)
-    var rootPath = jQuery.sap.getModulePath("sap.ui.demo.tracker");
-
-    // set i18n model
-    var i18nModel = new sap.ui.model.resource.ResourceModel({
-      bundleUrl: [rootPath, mConfig.resourceBundle].join("/")
-    });
-    this.setModel(i18nModel, "i18n");
-
-    var sServiceUrl = mConfig.serviceConfig.serviceUrl;
-
-    var bIsMocked = jQuery.sap.getUriParameters().get("responderOn") === "true";
-    // start the mock server for the domain model
-    if (bIsMocked) {
-      jQuery.sap.require("sap.ui.app.MockServer");
-      var oMockServer = new sap.ui.app.MockServer({
-        rootUri: sServiceUrl
-      });
-      oMockServer.simulate("model/metadata.xml", "model/");
-      oMockServer.start();
-      sap.m.MessageToast.show("Running in demo mode with mock data.", {
-        duration: 2000
-      });
+    if (this.useMockData(sServiceUrl)) {
+      this.startMockServer();
     }
 
-    // Create and set domain model to the component
-    var oModel = new sap.ui.demo.tracker.model.IssueModel(sServiceUrl, true);
-    this.setModel(oModel);
+    this.setModel(new sap.ui.demo.tracker.model.IssueModel(sServiceUrl, true));
 
-    this.routeHandler = new sap.m.routing.RouteMatchedHandler(this.getRouter());
-    this.getRouter().initialize();
-
+    this.initializeRouter();
   },
   destroy: function () {
     "use strict";
@@ -105,6 +83,39 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
       this.routeHandler.destroy();
     }
     sap.ui.core.UIComponent.destroy.apply(this, arguments);
-  }
+  },
+  setI18nModel: function (mConfig) {
+    "use strict";
+    // always use absolute paths relative to our own component
+    // (relative paths will fail if running in the Fiori Launchpad)
 
+    var rootPath = jQuery.sap.getModulePath("sap.ui.demo.tracker"),
+        i18nModel = new sap.ui.model.resource.ResourceModel({
+          bundleUrl: [rootPath, mConfig.resourceBundle].join("/")
+        });
+
+    this.setModel(i18nModel, "i18n");
+  },
+  useMockData: function () {
+    "use strict";
+    return jQuery.sap.getUriParameters().get("responderOn") === "true";
+  },
+  startMockServer: function (serviceUrl) {
+    "use strict";
+    jQuery.sap.require("sap.ui.app.MockServer");
+    var oMockServer = new sap.ui.app.MockServer({
+      rootUri: serviceUrl
+    });
+
+    oMockServer.simulate("model/metadata.xml", "model/");
+    oMockServer.start();
+    sap.m.MessageToast.show("Running in demo mode with mock data.", {
+      duration: 2000
+    });
+  },
+  initializeRouter: function () {
+    "use strict";
+    this.routeHandler = new sap.m.routing.RouteMatchedHandler(this.getRouter());
+    this.getRouter().initialize();
+  }
 });
