@@ -40,5 +40,28 @@ sap.ui.model.json.JSONModel.extend("sap.ui.demo.tracker.model.CreateIssueModel",
   getIssueIdByBindingPath: function (bindingPath) {
     "use strict";
     return bindingPath.split("/Issues(")[1].split(")")[0];
+  },
+  validate: function () {
+    "use strict";
+    var inputObject = this.getNewIssueObject(),
+        errors = {},
+        valid = true;
+    if (!this.isNonEmptyStringProperty("Name", inputObject)) {
+      errors.Name = "Name is required";
+      valid = false;
+    }
+    if (!this.isNonEmptyStringProperty("Priority", inputObject)) {
+      errors.Priority = "Priority is required";
+      valid = false;
+    }
+    return {
+      valid: valid,
+      errors: errors
+    };
+  },
+  isNonEmptyStringProperty: function (property, object) {
+    "use strict";
+    return ((property in object) &&
+            (object[property].toString().trim().length > 0));
   }
 });

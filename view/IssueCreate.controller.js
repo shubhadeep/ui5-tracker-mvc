@@ -22,20 +22,34 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
   },
   handleCancelPress: function (e) {
     "use strict";
+    this.getView()
+        .getModel("newIssue")
+        .initializeNewIssue();
+
     sap.ui.core.UIComponent.getRouterFor(this)
                            .navTo("list");
   },
   handleSavePress: function (e) {
     "use strict";
     var view = this.getView(),
-        newIssue = view.getModel("newIssue")
-                       .getNewIssueObject();
+        newIssueModel = view.getModel("newIssue"),
+        validationResult = newIssueModel.validate();
 
-    view.getModel()
-        .createNew(newIssue, {
-          success: this.onIssueCreatedSuccess.bind(this),
-          error: this.showBackendError
-        });
+    if (validationResult.valid) {
+      view.getModel()
+          .createNew(newIssueModel.getNewIssueObject(), {
+            success: this.onIssueCreatedSuccess.bind(this),
+            error: this.showBackendError
+          });
+    }
+    else {
+      this.displayValidationErrors(validationResult.errors);
+    }
+  },
+  displayValidationErrors: function (errors) {
+    "use strict";
+    jQuery.sap.require("sap.m.MessageBox");
+    sap.m.MessageBox.show("Validation Error", {title: "Invalid Inputs"});
   },
   onIssueCreatedSuccess: function (obj, response) {
     "use strict";

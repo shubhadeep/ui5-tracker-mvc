@@ -1,4 +1,4 @@
-/*global jQuery, sap */
+/*global jQuery, sap, window */
 jQuery.sap.declare("sap.ui.demo.tracker.Component");
 jQuery.sap.require("sap.ui.demo.tracker.model.IssueModel");
 
@@ -109,9 +109,10 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
 
     oMockServer.simulate("model/metadata.xml", "model/");
     oMockServer.start();
-    sap.m.MessageToast.show("Running in demo mode with mock data.", {
-      duration: 2000
-    });
+
+    window.setTimeout(function () {
+      sap.m.MessageToast.show("Running in demo mode with mock data.");
+    }, 0);
   },
   initializeRouter: function () {
     "use strict";
