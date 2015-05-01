@@ -69,8 +69,8 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
     this.setI18nModel(mConfig);
     sServiceUrl = mConfig.serviceConfig.serviceUrl;
 
-    if (this.useMockData(sServiceUrl)) {
-      this.startMockServer();
+    if (this.useMockData()) {
+      this.startMockServer(sServiceUrl);
     }
 
     this.setModel(new sap.ui.demo.tracker.model.IssueModel(sServiceUrl, true));

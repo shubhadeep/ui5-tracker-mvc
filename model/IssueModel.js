@@ -10,7 +10,7 @@ sap.ui.model.odata.v2.ODataModel.extend("sap.ui.demo.tracker.model.IssueModel", 
     "use strict";
     var parts = bindingPath.split("(");
     if (parts.length > 1) {
-      return parts[1];
+      return parts[1].split(")")[0];
     }
     return "";
   },
