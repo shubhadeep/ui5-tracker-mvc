@@ -1,4 +1,4 @@
-/*global window, sap, jQuery */
+/*global window sap jQuery */
 jQuery.sap.require("sap.m.MessageBox");
 jQuery.sap.require("sap.ui.demo.tracker.model.CreateIssueModel");
 
@@ -6,21 +6,32 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
   onInit: function () {
     "use strict";
 
-    var newIssueModel = new sap.ui.demo.tracker.model.CreateIssueModel();
-    newIssueModel.setData(newIssueModel.data);
-
-    this.getView()
-        .setModel(newIssueModel, "newIssue");
-
     sap.ui.core.UIComponent.getRouterFor(this)
                            .attachRouteMatched(this.onRouteMatched, this);
 
   },
   onRouteMatched: function (e) {
     "use strict";
+    // TODO: Refactor
+    var newIssueModel = new sap.ui.demo.tracker.model.CreateIssueModel(),
+        issueId,
+        model,
+        data;
 
-    // TODO
-    return;
+    if (e.getParameters().name === "create") {
+      newIssueModel.setData(newIssueModel.data);
+    }
+    else if (e.getParameters().name === "edit") {
+      issueId = e.getParameters().arguments.issueId;
+
+      model = this.getView().getModel();
+      data = model.getData(model.getBindingPathById(issueId));
+      newIssueModel.setData(newIssueModel.data);
+      newIssueModel.setProperty("/newIssueObject", data);
+    }
+
+    this.getView()
+        .setModel(newIssueModel, "newIssue");
   },
   handleCancelPress: function (e) {
     "use strict";
@@ -37,14 +48,28 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
 
     var view = this.getView(),
         newIssueModel = view.getModel("newIssue"),
-        validationResult = newIssueModel.validate();
+        validationResult = newIssueModel.validate(),
+        issueObject;
 
     if (validationResult.valid) {
+      issueObject = newIssueModel.getNewIssueObject();
+
+      // TODO: Refactor following if-statement to decouple edit and create
+      if (issueObject.ID) { // UPDATE
+        view.getModel()
+            .update(view.getModel().getBindingPathById(issueObject.ID), issueObject, {
+              success: this.onIssueCreatedSuccess.bind(this),
+              error: this.showBackendError,
+              merge: false
+            });
+      }
+      else { // CREATE
       view.getModel()
-          .createNew(newIssueModel.getNewIssueObject(), {
+          .createNew(issueObject, {
             success: this.onIssueCreatedSuccess.bind(this),
             error: this.showBackendError
           });
+      }
     }
     else {
       this.displayValidationErrors(validationResult.errors);

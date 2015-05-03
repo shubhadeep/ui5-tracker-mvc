@@ -25,6 +25,21 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueDetail", {
 
     view.bindElement(issueBindingPath);
   },
+  handleEditPress: function (e) {
+    "use strict";
+
+    var issuePath = e.getSource()
+                     .getBindingContext()
+                     .getPath(),
+        issueId = this.getView()
+                      .getModel()
+                      .getIdByBindingPath(issuePath);
+
+    sap.ui.core.UIComponent.getRouterFor(this)
+                           .navTo("edit", {
+                            issueId: issueId
+                          });
+  },
   handleDeletePress: function (e) {
     "use strict";
 
