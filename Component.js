@@ -47,7 +47,7 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
         {
           pattern: "edit/{issueId}",
           name: "edit",
-          view: "IssueCreate",
+          view: "IssueEdit",
           viewLevel: 1
         },
         {

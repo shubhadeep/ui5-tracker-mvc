@@ -1,0 +1,37 @@
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+  xmlns:form="sap.ui.layout.form"
+  xmlns:core="sap.ui.core"
+  controllerName="sap.ui.demo.tracker.view.IssueEdit"
+	displayBlock="true"
+	xmlns="sap.m">
+  <Page>
+    <form:SimpleForm>
+      <form:content>
+        <Title text="{i18n>EDIT_ISSUE_TITLE}" />
+        <Label text="{i18n>ISSUE_DETAIL_TITLE}" />
+        <Input value="{editIssue>/newIssueObject/Name}" />
+        <Label text="{i18n>ISSUE_DETAIL_DESCRIPTION}" />
+        <Input value="{editIssue>/newIssueObject/Description}" />
+        <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" />
+        <Select items="{editIssue>/priorities}"
+                selectedKey="{editIssue>/newIssueObject/Priority}" >
+          <core:Item text="{editIssue>priority}" key="{editIssue>key}" />
+        </Select>
+        <Label text="{i18n>ISSUE_DETAIL_OWNER}" />
+        <Select items="{editIssue>/owners}" 
+                selectedKey="{editIssue>/newIssueObject/Owner}">
+          <core:Item text="{editIssue>owner}" key="{editIssue>key}" />
+        </Select>
+      </form:content>
+    </form:SimpleForm>
+    <footer>
+      <Bar>
+        <contentRight>
+          <Button text="{i18n>ISSUECREATE_SAVE_BUTTON_TEXT}" press="handleSavePress" />
+          <Button text="{i18n>ISSUECREATE_CANCEL_BUTTON_TEXT}" press="handleCancelPress" />
+        </contentRight>
+      </Bar>
+    </footer>
+  </Page>
+</mvc:View>

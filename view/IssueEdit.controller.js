@@ -2,7 +2,7 @@
 jQuery.sap.require("sap.m.MessageBox");
 jQuery.sap.require("sap.ui.demo.tracker.model.CreateIssueModel");
 
-sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
+sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueEdit", {
   onInit: function () {
     "use strict";
 
@@ -12,25 +12,46 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
   },
   onRouteMatched: function (e) {
     "use strict";
-    // TODO: Refactor
-    var newIssueModel = new sap.ui.demo.tracker.model.CreateIssueModel(),
-        issueId,
-        model,
-        data;
 
-    if (!e.getParameters().name === "create") {
-      return; 
+    var issueId,
+        issueBindingPath;
+
+    if (!e.getParameters().name === "edit") {
+      return;
     }
 
-    newIssueModel.setData(newIssueModel.data);
+    issueId = e.getParameters().arguments.issueId;
+    issueBindingPath = this.getView()
+                           .getModel()
+                           .getBindingPathById(issueId);
+
+    this.loadEditIssueData(issueBindingPath);
+  },
+  loadEditIssueData: function (path) {
+    "use strict";
+
+    var model = this.getView().getModel();
+
+    model.read(path, {
+      success: this.setEditIssueModel.bind(this),
+      error: this.showBackendError
+    });
+  },
+  setEditIssueModel: function (data) {
+    "use strict";
+
+    var editIssueModel = new sap.ui.demo.tracker.model.CreateIssueModel();
+    editIssueModel.setData(editIssueModel.data);
+    editIssueModel.setProperty("/newIssueObject", data || {});
+
     this.getView()
-        .setModel(newIssueModel, "newIssue");
+        .setModel(editIssueModel, "editIssue");
   },
   handleCancelPress: function (e) {
     "use strict";
 
     this.getView()
-        .getModel("newIssue")
+        .getModel("editIssue")
         .initializeNewIssue();
 
     sap.ui.core.UIComponent.getRouterFor(this)
@@ -40,29 +61,18 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
     "use strict";
 
     var view = this.getView(),
-        newIssueModel = view.getModel("newIssue"),
-        validationResult = newIssueModel.validate(),
+        editIssueModel = view.getModel("editIssue"),
+        validationResult = editIssueModel.validate(),
         issueObject;
 
     if (validationResult.valid) {
-      issueObject = newIssueModel.getNewIssueObject();
+      issueObject = editIssueModel.getNewIssueObject();
 
-      // TODO: Refactor following if-statement to decouple edit and create
-      if (issueObject.ID) { // UPDATE
-        view.getModel()
-            .update(view.getModel().getBindingPathById(issueObject.ID), issueObject, {
-              success: this.onIssueCreatedSuccess.bind(this),
-              error: this.showBackendError,
-              merge: false
-            });
-      }
-      else { // CREATE
       view.getModel()
-          .createNew(issueObject, {
-            success: this.onIssueCreatedSuccess.bind(this),
+          .updateExisting(issueObject, {
+            success: this.onIssueEditedSuccess.bind(this, issueObject.ID),
             error: this.showBackendError
           });
-      }
     }
     else {
       this.displayValidationErrors(validationResult.errors);
@@ -76,18 +86,17 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
       title: "Invalid Inputs"
     });
   },
-  onIssueCreatedSuccess: function (obj, response) {
+  onIssueEditedSuccess: function (issueId) {
     "use strict";
-
     sap.ui.core.UIComponent.getRouterFor(this)
-                          .navTo("detail", {issueId: obj.ID});
+                          .navTo("detail", {issueId: issueId}, true);
 
     window.setTimeout(function () {
-      sap.m.MessageToast.show("Created new issue");
+      sap.m.MessageToast.show("Saved changes");
     }, 0);
 
     this.getView()
-        .getModel("newIssue")
+        .getModel("editIssue")
         .initializeNewIssue();
   },
   showBackendError: function (error) {
