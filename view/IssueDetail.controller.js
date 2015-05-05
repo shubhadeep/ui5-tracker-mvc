@@ -1,10 +1,12 @@
 /*global sap jQuery window */
-sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueDetail", {
+jQuery.sap.require("sap.ui.demo.tracker.base.Controller");
+
+sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueDetail", {
   onInit: function () {
     "use strict";
 
-    var router = sap.ui.core.UIComponent.getRouterFor(this);
-    router.attachRouteMatched(this.onRouteMatched, this);
+    this.getRouter()
+        .attachRouteMatched(this.onRouteMatched, this);
   },
   onRouteMatched: function (e) {
     "use strict";
@@ -35,10 +37,10 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueDetail", {
                       .getModel()
                       .getIdByBindingPath(issuePath);
 
-    sap.ui.core.UIComponent.getRouterFor(this)
-                           .navTo("edit", {
-                            issueId: issueId
-                          });
+    this.getRouter()
+        .navTo("edit", {
+          issueId: issueId
+        });
   },
   handleDeletePress: function (e) {
     "use strict";
@@ -56,37 +58,16 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueDetail", {
 
     // send a delete request to the odata service
     model.remove(issueContextPath, {
-      success: this.onDeleteIssueSuccess.bind(this),
-      error: this.onDeleteIssueError
+      success: this.onIssueDeleted.bind(this),
+      error: this.showBackendError
     });
   },
-  onDeleteIssueSuccess: function () {
+  onIssueDeleted: function () {
     "use strict";
 
-    var router = sap.ui.core.UIComponent.getRouterFor(this);
-    router.navTo("list");
+    this.getRouter()
+        .navTo("list");
 
-    window.setTimeout(function () {
-      var successMessage = this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE");
-      sap.m.MessageToast.show(successMessage);
-    }.bind(this), 0);
-  },
-  onDeleteIssueError: function (error) {
-    "use strict";
-
-    var errorMessage = this.getI18nText("ISSUE_DELETE_ERROR_MESSAGE");
-    jQuery.sap.require("sap.m.MessageBox");
-
-    sap.m.MessageBox.show(error.responseText, {
-      title: errorMessage
-    });
-  },
-  getI18nText: function (key) {
-    "use strict";
-
-    return this.getOwnerComponent()
-               .getModel("i18n")
-               .getResourceBundle()
-               .getText(key);
+    this.showMessageToast(this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE"));
   }
 });

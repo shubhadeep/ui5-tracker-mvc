@@ -1,40 +1,26 @@
 /*global window sap jQuery */
-jQuery.sap.require("sap.m.MessageBox");
+jQuery.sap.require("sap.ui.demo.tracker.base.Controller");
 jQuery.sap.require("sap.ui.demo.tracker.model.CreateIssueModel");
 
-sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
+sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
   onInit: function () {
     "use strict";
-
-    sap.ui.core.UIComponent.getRouterFor(this)
-                           .attachRouteMatched(this.onRouteMatched, this);
-
-  },
-  onRouteMatched: function (e) {
-    "use strict";
-    // TODO: Refactor
-    var newIssueModel = new sap.ui.demo.tracker.model.CreateIssueModel(),
-        issueId,
-        model,
-        data;
-
-    if (!e.getParameters().name === "create") {
-      return; 
-    }
+    var newIssueModel = new sap.ui.demo.tracker.model.CreateIssueModel();
 
     newIssueModel.setData(newIssueModel.data);
+    
     this.getView()
         .setModel(newIssueModel, "newIssue");
+
+    this.getRouter()
+        .attachRouteMatched(this.onRouteMatched, this);
   },
-  handleCancelPress: function (e) {
+  onRouteMatched: function () {
     "use strict";
 
     this.getView()
         .getModel("newIssue")
         .initializeNewIssue();
-
-    sap.ui.core.UIComponent.getRouterFor(this)
-                           .navTo("list");
   },
   handleSavePress: function (e) {
     "use strict";
@@ -47,66 +33,38 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
     if (validationResult.valid) {
       issueObject = newIssueModel.getNewIssueObject();
 
-      // TODO: Refactor following if-statement to decouple edit and create
-      if (issueObject.ID) { // UPDATE
-        view.getModel()
-            .update(view.getModel().getBindingPathById(issueObject.ID), issueObject, {
-              success: this.onIssueCreatedSuccess.bind(this),
-              error: this.showBackendError,
-              merge: false
-            });
-      }
-      else { // CREATE
       view.getModel()
           .createNew(issueObject, {
-            success: this.onIssueCreatedSuccess.bind(this),
+            success: this.onIssueCreated.bind(this),
             error: this.showBackendError
           });
-      }
     }
     else {
       this.displayValidationErrors(validationResult.errors);
     }
   },
-  displayValidationErrors: function (errors) {
+  handleCancelPress: function (e) {
     "use strict";
-
-    jQuery.sap.require("sap.m.MessageBox");
-    sap.m.MessageBox.show("Validation Error", {
-      title: "Invalid Inputs"
-    });
-  },
-  onIssueCreatedSuccess: function (obj, response) {
-    "use strict";
-
-    sap.ui.core.UIComponent.getRouterFor(this)
-                          .navTo("detail", {issueId: obj.ID});
-
-    window.setTimeout(function () {
-      sap.m.MessageToast.show("Created new issue");
-    }, 0);
 
     this.getView()
         .getModel("newIssue")
         .initializeNewIssue();
+
+    this.getRouter()
+        .navTo("list");
   },
-  showBackendError: function (error) {
+  onIssueCreated: function (obj, response) {
     "use strict";
 
-    sap.m.MessageBox.show(
-      error.responseText, {
-        icon: sap.m.MessageBox.Icon.ERROR,
-        title: error.message,
-        actions: [sap.m.MessageBox.Action.OK]
-      }
-    );
-  },
-  getI18nText: function (key) {
-    "use strict";
+    this.getRouter()
+        .navTo("detail", {
+          issueId: obj.ID
+        });
 
-    return this.getOwnerComponent()
-               .getModel("i18n")
-               .getResourceBundle()
-               .getText(key);
+    this.showMessageToast("Created new issue");
+
+    this.getView()
+        .getModel("newIssue")
+        .initializeNewIssue();
   }
 });

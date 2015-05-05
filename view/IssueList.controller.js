@@ -1,14 +1,17 @@
 /*global sap */
-sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
+jQuery.sap.require("sap.ui.demo.tracker.base.Controller");
+
+sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
   onInit: function () {
     "use strict";
 
-    sap.ui.core.UIComponent.getRouterFor(this)
-                           .attachRouteMatched(this.onRouteMatched, this);
+    this.getRouter()
+        .attachRouteMatched(this.onRouteMatched, this);
   },
   onRouteMatched: function (e) {
     "use strict";
 
+    return;
   },
   handleDelete: function (e) {
     "use strict";
@@ -24,10 +27,18 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
   deleteIssue: function (issueContextPath) {
     "use strict";
 
-    this.getView().getModel().remove(issueContextPath, {
-      success: this.onDeleteIssueSuccess.bind(this),
-      error: this.onDeleteIssueError
-    });
+    this.getView()
+        .getModel()
+        .remove(issueContextPath, {
+          success: this.onIssueDeleted.bind(this),
+          error: this.showBackendError
+        });
+  },
+  handleCreatePress: function (e) {
+    "use strict";
+
+    this.getRouter()
+        .navTo("create");
   },
   handleIssueItemPress: function (e) {
     "use strict";
@@ -38,33 +49,16 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
                       .getModel()
                       .getIdByBindingPath(detailPath);
 
-    sap.ui.core.UIComponent.getRouterFor(this)
-                           .navTo("detail", {
-                                issueId: issueId
-                            });
+    this.getRouter()
+        .navTo("detail", {
+          issueId: issueId
+        });
   },
-  handleCreatePress: function (e) {
+  onIssueDeleted: function (data, response) {
     "use strict";
 
-    sap.ui.core.UIComponent.getRouterFor(this)
-                           .navTo("create");
-  },
-  onDeleteIssueSuccess: function (data, response) {
-    "use strict";
+    var message = this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE");
 
-    sap.m.MessageToast.show(this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE"));
-  },
-  onDeleteIssueError: function (error) {
-    "use strict";
-
-    sap.m.MessageToast.show(this.getI18nText("ISSUE_DELETE_ERROR_MESSAGE"));
-  },
-  getI18nText: function (key) {
-    "use strict";
-
-    return this.getOwnerComponent()
-               .getModel("i18n")
-               .getResourceBundle()
-               .getText(key);
+    this.showMessageToast(message);
   }
 });
