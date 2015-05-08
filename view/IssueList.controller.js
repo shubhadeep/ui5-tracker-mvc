@@ -1,5 +1,6 @@
 /*global sap */
 jQuery.sap.require("sap.ui.demo.tracker.base.Controller");
+jQuery.sap.require("sap.ui.demo.tracker.util.Utility");
 
 sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
   onInit: function () {
@@ -58,8 +59,9 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueList",
   onIssueDeleted: function () {
     "use strict";
 
-    var message = this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE");
+    var util = sap.ui.demo.tracker.util.Utility,
+        message = this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE");
 
-    this.showMessageToast(message);
+    util.displayMessageToast(message);
   }
 });

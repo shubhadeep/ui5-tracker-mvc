@@ -1,6 +1,7 @@
 /*global jQuery, sap, window */
 jQuery.sap.declare("sap.ui.demo.tracker.Component");
 jQuery.sap.require("sap.ui.demo.tracker.model.IssueModel");
+jQuery.sap.require("sap.ui.demo.tracker.util.Utility");
 
 sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
   metadata: {
@@ -82,7 +83,7 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
 
     this.setModel(new sap.ui.demo.tracker.model.IssueModel(sServiceUrl, true));
 
-    this.initializeRouter(this.this.getRouter());
+    this.initializeRouter(this.getRouter());
   },
   destroy: function () {
     "use strict";
@@ -112,23 +113,19 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
   startMockServer: function (serviceUrl) {
     "use strict";
 
+    var util = sap.ui.demo.tracker.util.Utility,
+        mockServer;
+
     jQuery.sap.require("sap.ui.app.MockServer");
-    var oMockServer = new sap.ui.app.MockServer({
+    mockServer = new sap.ui.app.MockServer({
       rootUri: serviceUrl
     });
 
-    oMockServer.simulate("model/metadata.xml", "model/");
-    oMockServer.start();
+    mockServer.simulate("model/metadata.xml", "model/");
+    mockServer.start();
 
-    this.displayMessageToast("Running in demo mode with mock data.");
+    util.displayMessageToast("Running in demo mode with mock data.");
 
-  },
-  displayMessageToast: function (message) {
-    "use strict";
-
-    window.setTimeout(function () {
-      sap.m.MessageToast.show(message);
-    }, 0);
   },
   initializeRouter: function (router) {
     "use strict";

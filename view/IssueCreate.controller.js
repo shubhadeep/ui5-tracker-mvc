@@ -1,6 +1,7 @@
 /*global window sap jQuery */
 jQuery.sap.require("sap.ui.demo.tracker.base.Controller");
 jQuery.sap.require("sap.ui.demo.tracker.model.CreateIssueModel");
+jQuery.sap.require("sap.ui.demo.tracker.util.Utility");
 
 sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
   onInit: function () {
@@ -61,12 +62,15 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueCreate
   onIssueCreated: function (obj, response) {
     "use strict";
 
+    var util = sap.ui.demo.tracker.util.Utility,
+        message = this.getI18nText("ISSUE_CREATE_SUCCESS_MESSAGE");
+
     this.getRouter()
         .navTo("detail", {
           issueId: obj.ID
         });
 
-    this.showMessageToast(this.getI18nText("ISSUE_CREATE_SUCCESS_MESSAGE"));
+    util.displayMessageToast(message);
 
     this._newIssueModel.initializeNewIssue();
   }
