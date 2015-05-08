@@ -82,7 +82,7 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
 
     this.setModel(new sap.ui.demo.tracker.model.IssueModel(sServiceUrl, true));
 
-    this.initializeRouter();
+    this.initializeRouter(this.this.getRouter());
   },
   destroy: function () {
     "use strict";
@@ -120,14 +120,20 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
     oMockServer.simulate("model/metadata.xml", "model/");
     oMockServer.start();
 
-    window.setTimeout(function () {
-      sap.m.MessageToast.show("Running in demo mode with mock data.");
-    }, 0);
+    this.displayMessageToast("Running in demo mode with mock data.");
+
   },
-  initializeRouter: function () {
+  displayMessageToast: function (message) {
     "use strict";
 
-    this.routeHandler = new sap.m.routing.RouteMatchedHandler(this.getRouter());
-    this.getRouter().initialize();
+    window.setTimeout(function () {
+      sap.m.MessageToast.show(message);
+    }, 0);
+  },
+  initializeRouter: function (router) {
+    "use strict";
+
+    this.routeHandler = new sap.m.routing.RouteMatchedHandler(router);
+    router.initialize();
   }
 });
