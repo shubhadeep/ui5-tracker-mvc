@@ -54,7 +54,8 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueDetail
   deleteIssue: function (issueContextPath) {
     "use strict";
 
-    var model = this.getView().getModel();
+    var model = this.getView()
+                    .getModel();
 
     // send a delete request to the odata service
     model.remove(issueContextPath, {

@@ -17,7 +17,8 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueList",
     "use strict";
 
     var oList = e.getSource(),
-        sPath = e.getParameter("listItem").getBindingContextPath();
+        sPath = e.getParameter("listItem")
+                 .getBindingContextPath();
 
     // after deletion put the focus back to the list
     oList.attachEventOnce("updateFinished", oList.focus, oList);
@@ -54,7 +55,7 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueList",
           issueId: issueId
         });
   },
-  onIssueDeleted: function (data, response) {
+  onIssueDeleted: function () {
     "use strict";
 
     var message = this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE");

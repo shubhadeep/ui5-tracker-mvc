@@ -7,11 +7,13 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueEdit",
     "use strict";
 
     var editIssueModel = new sap.ui.demo.tracker.model.CreateIssueModel();
-    
+
     editIssueModel.setData(editIssueModel.data);
-    
+
     this.getView()
         .setModel(editIssueModel, "editIssue");
+
+    this._editIssueModel = editIssueModel;
 
     this.getRouter()
         .attachRouteMatched(this.onRouteMatched, this);
@@ -47,18 +49,14 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueEdit",
   },
   setEditIssueData: function (data) {
     "use strict";
-        
-    this.getView()
-        .getModel("editIssue")
-        .setProperty("/newIssueObject", data || {});
+
+    this._editIssueModel.setProperty("/newIssueObject", data || {});
 
   },
   handleCancelPress: function (e) {
     "use strict";
 
-    this.getView()
-        .getModel("editIssue")
-        .initializeNewIssue();
+    this._editIssueModel.initializeNewIssue();
 
     this.getRouter()
         .navTo("list");
@@ -67,7 +65,7 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueEdit",
     "use strict";
 
     var view = this.getView(),
-        editIssueModel = view.getModel("editIssue"),
+        editIssueModel = this._editIssueModel,
         validationResult = editIssueModel.validate(),
         issueObject;
 
@@ -86,16 +84,14 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueEdit",
   },
   onIssueEdited: function (issueId) {
     "use strict";
-    
+
     this.getRouter()
         .navTo("detail", {
           issueId: issueId
         }, true);
 
-    this.showMessageToast("Saved changes");
+    this.showMessageToast(this.getI18nText("ISSUE_UPDATE_SUCCESS_MESSAGE"));
 
-    this.getView()
-        .getModel("editIssue")
-        .initializeNewIssue();
+    this._editIssueModel.initializeNewIssue();
   }
 });

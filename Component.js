@@ -67,6 +67,7 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
 
   init: function() {
     "use strict";
+
     var mConfig, sServiceUrl;
 
     sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
@@ -85,6 +86,7 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
   },
   destroy: function () {
     "use strict";
+
     if (this.routeHandler) {
       this.routeHandler.destroy();
     }
@@ -92,9 +94,9 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
   },
   setI18nModel: function (mConfig) {
     "use strict";
+
     // always use absolute paths relative to our own component
     // (relative paths will fail if running in the Fiori Launchpad)
-
     var rootPath = jQuery.sap.getModulePath("sap.ui.demo.tracker"),
         i18nModel = new sap.ui.model.resource.ResourceModel({
           bundleUrl: [rootPath, mConfig.resourceBundle].join("/")
@@ -104,10 +106,12 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
   },
   useMockData: function () {
     "use strict";
+
     return jQuery.sap.getUriParameters().get("responderOn") === "true";
   },
   startMockServer: function (serviceUrl) {
     "use strict";
+
     jQuery.sap.require("sap.ui.app.MockServer");
     var oMockServer = new sap.ui.app.MockServer({
       rootUri: serviceUrl
@@ -122,6 +126,7 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
   },
   initializeRouter: function () {
     "use strict";
+
     this.routeHandler = new sap.m.routing.RouteMatchedHandler(this.getRouter());
     this.getRouter().initialize();
   }
