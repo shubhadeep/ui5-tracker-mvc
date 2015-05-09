@@ -20,16 +20,27 @@ sap.ui.model.json.JSONModel.extend("sap.ui.demo.tracker.model.CreateIssueModel",
       Description: "",
       Priority: "",
       Owner: ""
+    },
+    newIssueValueState: {
+      Name: sap.ui.core.ValueState.None,
+      Priority: sap.ui.core.ValueState.None
     }
   },
   initializeNewIssue: function () {
     "use strict";
+
     this.setProperty("/newIssueObject", {
       Name: "",
       Description: "",
       Priority: "",
       Owner: ""
     });
+
+    this.setProperty("/newIssueValueState", {
+      Name: sap.ui.core.ValueState.None,
+      Priority: sap.ui.core.ValueState.None // Does not work !
+    });
+
   },
   getNewIssueObject: function () {
     "use strict";

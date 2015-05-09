@@ -49,6 +49,12 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueCreate
     }
     else {
       this.displayValidationErrors(validationResult.errors);
+
+      //TODO: refactor -- probably validate using CPS - do 
+      // backend action on validation success 
+      Object.keys(validationResult.errors).forEach(function (error) {
+        this._newIssueModel.setProperty("/newIssueValueState/" + error, sap.ui.core.ValueState.Error);
+      }, this);
     }
   },
   handleCancelPress: function (e) {

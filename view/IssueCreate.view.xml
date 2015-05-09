@@ -10,12 +10,13 @@
       <form:content>
         <Title text="{i18n>ADD_ISSUE_TITLE}" />
         <Label text="{i18n>ISSUE_DETAIL_TITLE}" />
-        <Input value="{newIssue>/newIssueObject/Name}" />
+        <Input value="{newIssue>/newIssueObject/Name}" valueState="{newIssue>/newIssueValueState/Name}" />
         <Label text="{i18n>ISSUE_DETAIL_DESCRIPTION}" />
         <Input value="{newIssue>/newIssueObject/Description}" />
         <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" />
         <Select items="{newIssue>/priorities}"
-                selectedKey="{newIssue>/newIssueObject/Priority}" >
+                selectedKey="{newIssue>/newIssueObject/Priority}" 
+                valueState="{newIssue>/newIssueValueState/Priority}" >
           <core:Item text="{newIssue>priority}" key="{newIssue>key}" />
         </Select>
         <Label text="{i18n>ISSUE_DETAIL_OWNER}" />
