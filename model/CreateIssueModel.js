@@ -24,6 +24,9 @@ sap.ui.model.json.JSONModel.extend("sap.ui.demo.tracker.model.CreateIssueModel",
     newIssueValueState: {
       Name: sap.ui.core.ValueState.None,
       Priority: sap.ui.core.ValueState.None
+    },
+    newIssueFieldErrors: {
+      Name: "Name is required" // TODO: Storing field messages in model
     }
   },
   initializeNewIssue: function () {
@@ -44,16 +47,14 @@ sap.ui.model.json.JSONModel.extend("sap.ui.demo.tracker.model.CreateIssueModel",
   },
   getNewIssueObject: function () {
     "use strict";
+
     var newIssueObject = jQuery.extend(this.getProperty("/newIssueObject"), {});
     newIssueObject.Created = new Date();
     return newIssueObject;
   },
-  getIssueIdByBindingPath: function (bindingPath) {
-    "use strict";
-    return bindingPath.split("/Issues(")[1].split(")")[0];
-  },
   validate: function () {
     "use strict";
+
     var inputObject = this.getNewIssueObject(),
         errors = {},
         valid = true;
@@ -72,6 +73,7 @@ sap.ui.model.json.JSONModel.extend("sap.ui.demo.tracker.model.CreateIssueModel",
   },
   isNonEmptyStringProperty: function (property, object) {
     "use strict";
+
     return ((property in object) &&
             (object[property].toString().trim().length > 0));
   }
