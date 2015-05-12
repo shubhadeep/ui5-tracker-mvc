@@ -1,4 +1,4 @@
-/*global window sap jQuery */
+/*global sap jQuery */
 jQuery.sap.require("sap.ui.demo.tracker.base.Controller");
 jQuery.sap.require("sap.ui.demo.tracker.model.CreateIssueModel");
 jQuery.sap.require("sap.ui.demo.tracker.util.Utility");
@@ -41,7 +41,7 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueCreate
     "use strict";
 
     sap.ui.demo.tracker.base.Controller.prototype.displayValidationErrors.apply(this, arguments);
-    
+
     // TODO refactor this
     Object.keys(errors).forEach(function (error) {
       this._newIssueModel.setProperty("/newIssueValueState/" + error, sap.ui.core.ValueState.Error);
@@ -66,7 +66,7 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueCreate
     this.getRouter()
         .navTo("list");
   },
-  onIssueCreated: function (obj, response) {
+  onIssueCreated: function (obj) {
     "use strict";
 
     var util = sap.ui.demo.tracker.util.Utility,

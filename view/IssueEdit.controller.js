@@ -1,4 +1,4 @@
-/*global window sap jQuery */
+/*global sap jQuery */
 jQuery.sap.require("sap.ui.demo.tracker.base.Controller");
 jQuery.sap.require("sap.ui.demo.tracker.model.CreateIssueModel");
 jQuery.sap.require("sap.ui.demo.tracker.util.Utility");
@@ -71,7 +71,7 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueEdit",
   },
   saveEditedIssue: function (issueObject) {
     "use strict";
-    
+
     this.getView()
         .getModel()
         .updateExisting(issueObject, {
@@ -98,11 +98,10 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueEdit",
     "use strict";
 
     sap.ui.demo.tracker.base.Controller.prototype.displayValidationErrors.apply(this, arguments);
-    
+
     // TODO refactor this - code repeats with create
     Object.keys(errors).forEach(function (error) {
       this._editIssueModel.setProperty("/newIssueValueState/" + error, sap.ui.core.ValueState.Error);
     }, this);
-
-  },
+  }
 });

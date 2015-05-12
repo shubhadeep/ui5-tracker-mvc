@@ -1,4 +1,4 @@
-/*global jQuery, sap, window */
+/*global jQuery, sap */
 jQuery.sap.declare("sap.ui.demo.tracker.Component");
 jQuery.sap.require("sap.ui.demo.tracker.model.IssueModel");
 jQuery.sap.require("sap.ui.demo.tracker.util.Utility");
@@ -75,9 +75,9 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
 
     mConfig = this.getMetadata()
                   .getConfig();
-    
+
     this.setI18nModel(mConfig.resourceBundle);
-    
+
     sServiceUrl = mConfig.serviceConfig.serviceUrl;
 
     if (this.useMockData()) {

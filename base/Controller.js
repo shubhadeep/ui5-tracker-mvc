@@ -7,7 +7,7 @@ sap.ui.core.mvc.Controller.extend("sap.ui.demo.tracker.base.Controller", {
 
     return  sap.ui.core.UIComponent.getRouterFor(this);
   },
-  displayValidationErrors: function (errors) {
+  displayValidationErrors: function () {
     "use strict";
 
     jQuery.sap.require("sap.m.MessageBox");

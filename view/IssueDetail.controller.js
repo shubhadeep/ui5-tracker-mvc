@@ -1,4 +1,4 @@
-/*global sap jQuery window */
+/*global sap jQuery */
 jQuery.sap.require("sap.ui.demo.tracker.base.Controller");
 jQuery.sap.require("sap.ui.demo.tracker.util.Utility");
 

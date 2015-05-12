@@ -75,7 +75,7 @@ sap.ui.model.json.JSONModel.extend("sap.ui.demo.tracker.model.CreateIssueModel",
     } else {
       validated.rejectWith(callbackContext, [errors]);
     }
-    return validated;
+    return validated.promise();
   },
   isNonEmptyStringProperty: function (property, object) {
     "use strict";
