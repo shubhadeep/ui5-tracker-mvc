@@ -52,12 +52,15 @@ sap.ui.model.json.JSONModel.extend("sap.ui.demo.tracker.model.CreateIssueModel",
     newIssueObject.Created = new Date();
     return newIssueObject;
   },
-  validate: function () {
+  validate: function (onValid, onInvalid, context) {
     "use strict";
 
-    var inputObject = this.getNewIssueObject(),
+    var validated = jQuery.Deferred(),
+        inputObject = this.getNewIssueObject(),
         errors = {},
-        valid = true;
+        valid = true,
+        callbackContext = context || this;
+
     if (!this.isNonEmptyStringProperty("Name", inputObject)) {
       errors.Name = "Name is required";
       valid = false;
@@ -66,10 +69,13 @@ sap.ui.model.json.JSONModel.extend("sap.ui.demo.tracker.model.CreateIssueModel",
       errors.Priority = "Priority is required";
       valid = false;
     }
-    return {
-      valid: valid,
-      errors: errors
-    };
+
+    if (valid) {
+      validated.resolveWith(callbackContext, [inputObject]);
+    } else {
+      validated.rejectWith(callbackContext, [errors]);
+    }
+    return validated;
   },
   isNonEmptyStringProperty: function (property, object) {
     "use strict";

@@ -38,17 +38,11 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueCreate
         validationResult = newIssueModel.validate(),
         issueObject;
 
-    if (validationResult.valid) {
-      issueObject = newIssueModel.getNewIssueObject();
-
-      view.getModel()
-          .createNew(issueObject, {
-            success: this.onIssueCreated.bind(this),
-            error: this.showBackendError
-          });
-    }
-    else {
-      this.displayValidationErrors(validationResult.errors);
+    newIssueModel.validate()
+                 .done(this.createIssue)
+                 .fail(this.displayValidationErrors);
+    
+    return;
 
       //TODO: refactor -- probably validate using CPS - do 
       // backend action on validation success 
@@ -56,6 +50,16 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueCreate
         this._newIssueModel.setProperty("/newIssueValueState/" + error, sap.ui.core.ValueState.Error);
       }, this);
     }
+  },
+  createIssue: function (issueObject) {
+    "use strict";
+
+    this.getView()
+        .getModel()
+        .createNew(issueObject, {
+          success: this.onIssueCreated.bind(this),
+          error: this.showBackendError
+        });
   },
   handleCancelPress: function (e) {
     "use strict";
