@@ -15,8 +15,7 @@
         <Input value="{newIssue>/newIssueObject/Description}" />
         <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" />
         <Select items="{newIssue>/priorities}"
-                selectedKey="{newIssue>/newIssueObject/Priority}" 
-                valueState="{newIssue>/newIssueValueState/Priority}" >
+                selectedKey="{newIssue>/newIssueObject/Priority}" >
           <core:Item text="{newIssue>priority}" key="{newIssue>key}" />
         </Select>
         <Label text="{i18n>ISSUE_DETAIL_OWNER}" />

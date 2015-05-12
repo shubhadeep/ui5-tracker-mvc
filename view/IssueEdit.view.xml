@@ -10,7 +10,7 @@
       <form:content>
         <Title text="{i18n>EDIT_ISSUE_TITLE}" />
         <Label text="{i18n>ISSUE_DETAIL_TITLE}" />
-        <Input value="{editIssue>/newIssueObject/Name}" />
+        <Input value="{editIssue>/newIssueObject/Name}" valueState="{editIssue>/newIssueValueState/Name}" />
         <Label text="{i18n>ISSUE_DETAIL_DESCRIPTION}" />
         <Input value="{editIssue>/newIssueObject/Description}" />
         <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" />

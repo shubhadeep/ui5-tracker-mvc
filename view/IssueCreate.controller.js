@@ -33,23 +33,20 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueCreate
   handleSavePress: function (e) {
     "use strict";
 
-    var view = this.getView(),
-        newIssueModel = this._newIssueModel,
-        validationResult = newIssueModel.validate(),
-        issueObject;
+    this._newIssueModel.validate()
+                       .done(this.createIssue.bind(this))
+                       .fail(this.displayValidationErrors.bind(this));
+  },
+  displayValidationErrors: function (errors) {
+    "use strict";
 
-    newIssueModel.validate()
-                 .done(this.createIssue)
-                 .fail(this.displayValidationErrors);
+    sap.ui.demo.tracker.base.Controller.prototype.displayValidationErrors.apply(this, arguments);
     
-    return;
+    // TODO refactor this
+    Object.keys(errors).forEach(function (error) {
+      this._newIssueModel.setProperty("/newIssueValueState/" + error, sap.ui.core.ValueState.Error);
+    }, this);
 
-      //TODO: refactor -- probably validate using CPS - do 
-      // backend action on validation success 
-      Object.keys(validationResult.errors).forEach(function (error) {
-        this._newIssueModel.setProperty("/newIssueValueState/" + error, sap.ui.core.ValueState.Error);
-      }, this);
-    }
   },
   createIssue: function (issueObject) {
     "use strict";

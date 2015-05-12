@@ -65,23 +65,19 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueEdit",
   handleSavePress: function (e) {
     "use strict";
 
-    var view = this.getView(),
-        editIssueModel = this._editIssueModel,
-        validationResult = editIssueModel.validate(),
-        issueObject;
-
-    if (validationResult.valid) {
-      issueObject = editIssueModel.getNewIssueObject();
-
-      view.getModel()
-          .updateExisting(issueObject, {
-            success: this.onIssueEdited.bind(this, issueObject.ID),
-            error: this.showBackendError
-          });
-    }
-    else {
-      this.displayValidationErrors(validationResult.errors);
-    }
+    this._editIssueModel.validate()
+                        .done(this.saveEditedIssue.bind(this))
+                        .fail(this.displayValidationErrors.bind(this));
+  },
+  saveEditedIssue: function (issueObject) {
+    "use strict";
+    
+    this.getView()
+        .getModel()
+        .updateExisting(issueObject, {
+          success: this.onIssueEdited.bind(this, issueObject.ID),
+          error: this.showBackendError
+        });
   },
   onIssueEdited: function (issueId) {
     "use strict";
@@ -97,5 +93,16 @@ sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueEdit",
     util.displayMessageToast(message);
 
     this._editIssueModel.initializeNewIssue();
-  }
+  },
+  displayValidationErrors: function (errors) {
+    "use strict";
+
+    sap.ui.demo.tracker.base.Controller.prototype.displayValidationErrors.apply(this, arguments);
+    
+    // TODO refactor this - code repeats with create
+    Object.keys(errors).forEach(function (error) {
+      this._editIssueModel.setProperty("/newIssueValueState/" + error, sap.ui.core.ValueState.Error);
+    }, this);
+
+  },
 });
