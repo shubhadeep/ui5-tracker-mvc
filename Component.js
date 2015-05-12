@@ -73,8 +73,11 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
 
     sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
 
-    mConfig = this.getMetadata().getConfig();
-    this.setI18nModel(mConfig);
+    mConfig = this.getMetadata()
+                  .getConfig();
+    
+    this.setI18nModel(mConfig.resourceBundle);
+    
     sServiceUrl = mConfig.serviceConfig.serviceUrl;
 
     if (this.useMockData()) {
@@ -93,14 +96,14 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
     }
     sap.ui.core.UIComponent.destroy.apply(this, arguments);
   },
-  setI18nModel: function (mConfig) {
+  setI18nModel: function (resourceBundle) {
     "use strict";
 
     // always use absolute paths relative to our own component
     // (relative paths will fail if running in the Fiori Launchpad)
     var rootPath = jQuery.sap.getModulePath("sap.ui.demo.tracker"),
         i18nModel = new sap.ui.model.resource.ResourceModel({
-          bundleUrl: [rootPath, mConfig.resourceBundle].join("/")
+          bundleUrl: [rootPath, resourceBundle].join("/")
         });
 
     this.setModel(i18nModel, "i18n");
