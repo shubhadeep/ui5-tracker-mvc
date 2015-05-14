@@ -60,25 +60,20 @@ sap.ui.model.json.JSONModel.extend("sap.ui.demo.tracker.model.CreateIssueModel",
     var validated = jQuery.Deferred(),
         inputObject = this.getNewIssueObject(),
         errors = {},
-        valid = true,
-        callbackContext = context || this;
+        valid,
+        callbackContext = context || this,
+        properties = ["Name", "Priority"];
 
-    ["Name", "Priority"].forEach(function (property) {
+    valid = properties.map(function (property) {
       if (!this.isNonEmptyStringProperty(property, inputObject)) {
         errors[property] = this.data.fieldErrorMessages[property];
-        valid = false;
+        return false;
       }
-    }, this);
-/*
-    if (!this.isNonEmptyStringProperty("Name", inputObject)) {
-      errors.Name = this.data.fieldErrorMessages["Name"];
-      valid = false;
-    }
-    if (!this.isNonEmptyStringProperty("Priority", inputObject)) {
-      errors.Priority = this.data.fieldErrorMessages["Priority"];
-      valid = false;
-    }
-*/
+      return true;
+    }, this).every(function (isValid) {
+      return isValid;
+    });
+
     if (valid) {
       validated.resolveWith(callbackContext, [inputObject]);
     } else {
