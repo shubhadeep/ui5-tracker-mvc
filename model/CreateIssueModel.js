@@ -25,10 +25,12 @@ sap.ui.model.json.JSONModel.extend("sap.ui.demo.tracker.model.CreateIssueModel",
       Name: sap.ui.core.ValueState.None,
       Priority: sap.ui.core.ValueState.None
     },
-    newIssueFieldErrors: {
-      Name: "Name is required" // TODO: Storing field messages in model
+    fieldErrorMessages: {
+      Name: "Name is required", // TODO: Storing field messages in model
+      Priority: "Priority is required"
     }
   },
+
   initializeNewIssue: function () {
     "use strict";
 
@@ -61,15 +63,22 @@ sap.ui.model.json.JSONModel.extend("sap.ui.demo.tracker.model.CreateIssueModel",
         valid = true,
         callbackContext = context || this;
 
+    ["Name", "Priority"].forEach(function (property) {
+      if (!this.isNonEmptyStringProperty(property, inputObject)) {
+        errors[property] = this.data.fieldErrorMessages[property];
+        valid = false;
+      }
+    }, this);
+/*
     if (!this.isNonEmptyStringProperty("Name", inputObject)) {
-      errors.Name = "Name is required";
+      errors.Name = this.data.fieldErrorMessages["Name"];
       valid = false;
     }
     if (!this.isNonEmptyStringProperty("Priority", inputObject)) {
-      errors.Priority = "Priority is required";
+      errors.Priority = this.data.fieldErrorMessages["Priority"];
       valid = false;
     }
-
+*/
     if (valid) {
       validated.resolveWith(callbackContext, [inputObject]);
     } else {
