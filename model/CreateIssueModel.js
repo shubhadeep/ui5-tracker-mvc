@@ -25,8 +25,18 @@ sap.ui.model.json.JSONModel.extend("sap.ui.demo.tracker.model.CreateIssueModel",
       Name: sap.ui.core.ValueState.None,
       Priority: sap.ui.core.ValueState.None
     },
+    validationProperties: {
+      Name: {
+        validator: function (object, property, context) {},
+        errorMessage: "Name is required"
+      },
+      Priority: {
+        validator: function (object, property, context) {},
+        errorMessage: "Priority is required"
+      }
+    },
     fieldErrorMessages: {
-      Name: "Name is required", // TODO: Storing field messages in model
+      Name: "Name is required", // TODO: Storing field messages in i18n model
       Priority: "Priority is required"
     }
   },
