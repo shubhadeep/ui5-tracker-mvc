@@ -1,4 +1,4 @@
-/*global jQuery, sap*/
+/*global sap jQuery*/
 sap.ui.define(["sap/ui/model/json/JSONModel"],
   function (JSONModel) {
     "use strict";

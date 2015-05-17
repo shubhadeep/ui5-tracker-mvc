@@ -1,4 +1,4 @@
-/*global window sap jQuery */
+/*global window sap */
 sap.ui.define([], function () {
   "use strict";
 

@@ -1,7 +1,7 @@
-/*global window sap jQuery */
+/*global window sap */
 sap.ui.define(
-  ['sap/ui/core/mvc/Controller',
-   'sap/m/MessageBox'], 
+  ["sap/ui/core/mvc/Controller",
+   "sap/m/MessageBox"],
   function (Controller, MessageBox) {
     "use strict";
 
