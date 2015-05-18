@@ -1,5 +1,8 @@
-/*global sap jQuery */
-jQuery.sap.declare("sap.ui.demo.tracker.util.Formatter");
+/*global sap */
+sap.ui.define([],
+  function () {
+    "use strict";
 
-sap.ui.demo.tracker.util.Formatter = {
-};
+    sap.ui.demo.tracker.util.Formatter = {
+    };
+  }, true /*export*/);

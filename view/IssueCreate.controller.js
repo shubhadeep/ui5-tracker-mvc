@@ -1,84 +1,77 @@
-/*global sap jQuery */
-jQuery.sap.require("sap.ui.demo.tracker.base.Controller");
-jQuery.sap.require("sap.ui.demo.tracker.model.CreateIssueModel");
-jQuery.sap.require("sap.ui.demo.tracker.util.Utility");
-
-sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
-  onInit: function () {
+/*global sap */
+sap.ui.define(
+  ["sap/ui/demo/tracker/base/Controller",
+   "sap/ui/demo/tracker/model/CreateIssueModel",
+   "sap/ui/demo/tracker/util/Utility"],
+  function (Controller, CreateIssueModel, Utility) {
     "use strict";
 
-    var newIssueModel = new sap.ui.demo.tracker.model.CreateIssueModel();
+    var controller = Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
+      onInit: function () {
+        var newIssueModel = new CreateIssueModel();
 
-    newIssueModel.setData(newIssueModel.data);
+        newIssueModel.setData(newIssueModel.data);
 
-    this.getView()
-        .setModel(newIssueModel, "newIssue");
+        this.getView()
+            .setModel(newIssueModel, "newIssue");
 
-    this._newIssueModel = newIssueModel;
+        this._newIssueModel = newIssueModel;
 
-    this.getRouter()
-        .attachRouteMatched(this.onRouteMatched, this);
-  },
-  onRouteMatched: function (e) {
-    "use strict";
+        this.getRouter()
+            .attachRouteMatched(this.onRouteMatched, this);
+      },
+      onRouteMatched: function (e) {
+        var routeParameters = e.getParameters();
 
-    var routeParameters = e.getParameters();
+        if (!routeParameters.name === "create") {
+          return;
+        }
 
-    if (!routeParameters.name === "create") {
-      return;
-    }
+        this._newIssueModel.initializeNewIssue();
+      },
+      handleSavePress: function (e) {
+        this._newIssueModel.validate()
+                           .done(this.createIssue.bind(this))
+                           .fail(this.displayValidationErrors.bind(this));
+      },
+      displayValidationErrors: function (errors) {
+        "use strict";
 
-    this._newIssueModel.initializeNewIssue();
-  },
-  handleSavePress: function (e) {
-    "use strict";
+        Controller.prototype.displayValidationErrors.apply(this, arguments);
 
-    this._newIssueModel.validate()
-                       .done(this.createIssue.bind(this))
-                       .fail(this.displayValidationErrors.bind(this));
-  },
-  displayValidationErrors: function (errors) {
-    "use strict";
+        // TODO refactor this
+        Object.keys(errors).forEach(function (error) {
+          this._newIssueModel.setProperty("/newIssueValueState/" + error, sap.ui.core.ValueState.Error);
+        }, this);
 
-    sap.ui.demo.tracker.base.Controller.prototype.displayValidationErrors.apply(this, arguments);
+      },
+      createIssue: function (issueObject) {
+        this.getView()
+            .getModel()
+            .createNew(issueObject, {
+              success: this.onIssueCreated.bind(this),
+              error: this.showBackendError
+            });
+      },
+      handleCancelPress: function (e) {
+        this._newIssueModel.initializeNewIssue();
 
-    // TODO refactor this
-    Object.keys(errors).forEach(function (error) {
-      this._newIssueModel.setProperty("/newIssueValueState/" + error, sap.ui.core.ValueState.Error);
-    }, this);
+        this.getRouter()
+            .navTo("list");
+      },
+      onIssueCreated: function (obj) {
+        var message = this.getI18nText("ISSUE_CREATE_SUCCESS_MESSAGE");
 
-  },
-  createIssue: function (issueObject) {
-    "use strict";
+        this.getRouter()
+            .navTo("detail", {
+              issueId: obj.ID
+            });
 
-    this.getView()
-        .getModel()
-        .createNew(issueObject, {
-          success: this.onIssueCreated.bind(this),
-          error: this.showBackendError
-        });
-  },
-  handleCancelPress: function (e) {
-    "use strict";
+        Utility.displayMessageToast(message);
 
-    this._newIssueModel.initializeNewIssue();
+        this._newIssueModel.initializeNewIssue();
+      }
+    });
 
-    this.getRouter()
-        .navTo("list");
-  },
-  onIssueCreated: function (obj) {
-    "use strict";
-
-    var util = sap.ui.demo.tracker.util.Utility,
-        message = this.getI18nText("ISSUE_CREATE_SUCCESS_MESSAGE");
-
-    this.getRouter()
-        .navTo("detail", {
-          issueId: obj.ID
-        });
-
-    util.displayMessageToast(message);
-
-    this._newIssueModel.initializeNewIssue();
-  }
-});
+    return controller;
+  }, true /*export*/);
