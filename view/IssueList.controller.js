@@ -1,67 +1,58 @@
-/*global sap jQuery */
-jQuery.sap.require("sap.ui.demo.tracker.base.Controller");
-jQuery.sap.require("sap.ui.demo.tracker.util.Utility");
-
-sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueList", {
-  onInit: function () {
+/*global sap */
+sap.ui.define(
+  ["sap/ui/demo/tracker/base/Controller",
+   "sap/ui/demo/tracker/util/Utility"],
+  function (Controller, Utility) {
     "use strict";
 
-    this.getRouter()
-        .attachRouteMatched(this.onRouteMatched, this);
-  },
-  onRouteMatched: function (e) {
-    "use strict";
+    var controller = Controller.extend("sap.ui.demo.tracker.view.IssueList", {
+      onInit: function () {
+        this.getRouter()
+            .attachRouteMatched(this.onRouteMatched, this);
+      },
+      onRouteMatched: function (e) {
+        return;
+      },
+      handleDelete: function (e) {
+        var oList = e.getSource(),
+            sPath = e.getParameter("listItem")
+                     .getBindingContextPath();
 
-    return;
-  },
-  handleDelete: function (e) {
-    "use strict";
+        // after deletion put the focus back to the list
+        oList.attachEventOnce("updateFinished", oList.focus, oList);
+        this.deleteIssue(sPath);
 
-    var oList = e.getSource(),
-        sPath = e.getParameter("listItem")
-                 .getBindingContextPath();
+      },
+      deleteIssue: function (issueContextPath) {
+        this.getView()
+            .getModel()
+            .remove(issueContextPath, {
+              success: this.onIssueDeleted.bind(this),
+              error: this.showBackendError
+            });
+      },
+      handleCreatePress: function (e) {
+        this.getRouter()
+            .navTo("create");
+      },
+      handleIssueItemPress: function (e) {
+        var detailPath = e.getSource()
+                          .getBindingContextPath(),
+            issueId = this.getView()
+                          .getModel()
+                          .getIdByBindingPath(detailPath);
 
-    // after deletion put the focus back to the list
-    oList.attachEventOnce("updateFinished", oList.focus, oList);
-    this.deleteIssue(sPath);
+        this.getRouter()
+            .navTo("detail", {
+              issueId: issueId
+            });
+      },
+      onIssueDeleted: function () {
+        var message = this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE");
 
-  },
-  deleteIssue: function (issueContextPath) {
-    "use strict";
+        Utility.displayMessageToast(message);
+      }
+    });
 
-    this.getView()
-        .getModel()
-        .remove(issueContextPath, {
-          success: this.onIssueDeleted.bind(this),
-          error: this.showBackendError
-        });
-  },
-  handleCreatePress: function (e) {
-    "use strict";
-
-    this.getRouter()
-        .navTo("create");
-  },
-  handleIssueItemPress: function (e) {
-    "use strict";
-
-    var detailPath = e.getSource()
-                      .getBindingContextPath(),
-        issueId = this.getView()
-                      .getModel()
-                      .getIdByBindingPath(detailPath);
-
-    this.getRouter()
-        .navTo("detail", {
-          issueId: issueId
-        });
-  },
-  onIssueDeleted: function () {
-    "use strict";
-
-    var util = sap.ui.demo.tracker.util.Utility,
-        message = this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE");
-
-    util.displayMessageToast(message);
-  }
-});
+    return controller;
+  }, true /*export*/);
