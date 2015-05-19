@@ -1,78 +1,71 @@
-/*global sap jQuery */
-jQuery.sap.require("sap.ui.demo.tracker.base.Controller");
-jQuery.sap.require("sap.ui.demo.tracker.util.Utility");
-
-sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueDetail", {
-  onInit: function () {
+/*global sap */
+sap.ui.define(
+  ["sap/ui/demo/tracker/base/Controller",
+   "sap/ui/demo/tracker/util/Utility"],
+  function (Controller, Utility) {
     "use strict";
 
-    this.getRouter()
-        .attachRouteMatched(this.onRouteMatched, this);
-  },
-  onRouteMatched: function (e) {
-    "use strict";
+    var controller = Controller.extend("sap.ui.demo.tracker.view.IssueDetail", {
+      onInit: function () {
+        this.getRouter()
+            .attachRouteMatched(this.onRouteMatched, this);
+      },
+      onRouteMatched: function (e) {
+        var routeParameters = e.getParameters(),
+            issueBindingPath,
+            view,
+            issueId;
 
-    var routeParameters = e.getParameters(),
-        issueBindingPath,
-        view,
-        issueId;
+        if (!routeParameters.name === "detail") {
+          return;
+        }
 
-    if (!routeParameters.name === "detail") {
-      return;
-    }
+        view = this.getView();
+        issueId = routeParameters.arguments.issueId;
+        issueBindingPath = view.getModel()
+                               .getBindingPathById(issueId);
 
-    view = this.getView();
-    issueId = routeParameters.arguments.issueId;
-    issueBindingPath = view.getModel()
-                           .getBindingPathById(issueId);
+        view.bindElement(issueBindingPath);
+      },
+      handleEditPress: function (e) {
+        var issuePath = e.getSource()
+                         .getBindingContext()
+                         .getPath(),
+            issueId = this.getView()
+                          .getModel()
+                          .getIdByBindingPath(issuePath);
 
-    view.bindElement(issueBindingPath);
-  },
-  handleEditPress: function (e) {
-    "use strict";
+        this.getRouter()
+            .navTo("edit", {
+              issueId: issueId
+            });
+      },
+      handleDeletePress: function (e) {
+        var issuePath = e.getSource()
+                         .getBindingContext()
+                         .getPath();
 
-    var issuePath = e.getSource()
-                     .getBindingContext()
-                     .getPath(),
-        issueId = this.getView()
-                      .getModel()
-                      .getIdByBindingPath(issuePath);
+        this.deleteIssue(issuePath);
+      },
+      deleteIssue: function (issueContextPath) {
+        var model = this.getView()
+                        .getModel();
 
-    this.getRouter()
-        .navTo("edit", {
-          issueId: issueId
+        // send a delete request to the odata service
+        model.remove(issueContextPath, {
+          success: this.onIssueDeleted.bind(this),
+          error: this.showBackendError
         });
-  },
-  handleDeletePress: function (e) {
-    "use strict";
+      },
+      onIssueDeleted: function () {
+        var message = this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE");
 
-    var issuePath = e.getSource()
-                     .getBindingContext()
-                     .getPath();
+        this.getRouter()
+            .navTo("list");
 
-    this.deleteIssue(issuePath);
-  },
-  deleteIssue: function (issueContextPath) {
-    "use strict";
-
-    var model = this.getView()
-                    .getModel();
-
-    // send a delete request to the odata service
-    model.remove(issueContextPath, {
-      success: this.onIssueDeleted.bind(this),
-      error: this.showBackendError
+        Utility.displayMessageToast(message);
+      }
     });
-  },
-  onIssueDeleted: function () {
-    "use strict";
 
-    var util = sap.ui.demo.tracker.util.Utility,
-        message = this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE");
-
-    this.getRouter()
-        .navTo("list");
-
-    util.displayMessageToast(message);
-  }
-});
+  return controller;
+  }, true /*export*/);
