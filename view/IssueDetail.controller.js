@@ -67,5 +67,5 @@ sap.ui.define(
       }
     });
 
-  return controller;
+    return controller;
   }, true /*export*/);

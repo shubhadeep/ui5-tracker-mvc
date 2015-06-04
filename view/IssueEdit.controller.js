@@ -1,107 +1,94 @@
-/*global sap jQuery */
-jQuery.sap.require("sap.ui.demo.tracker.base.Controller");
-jQuery.sap.require("sap.ui.demo.tracker.model.CreateIssueModel");
-jQuery.sap.require("sap.ui.demo.tracker.util.Utility");
-
-sap.ui.demo.tracker.base.Controller.extend("sap.ui.demo.tracker.view.IssueEdit", {
-  onInit: function () {
+/*global sap */
+sap.ui.define(
+  ["sap/ui/demo/tracker/base/Controller",
+   "sap/ui/demo/tracker/model/CreateIssueModel",
+   "sap/ui/demo/tracker/util/Utility"],
+  function (Controller, CreateIssueModel, Utility) {
     "use strict";
 
-    var editIssueModel = new sap.ui.demo.tracker.model.CreateIssueModel();
+    var controller = Controller.extend("sap.ui.demo.tracker.view.IssueEdit", {
+      onInit: function () {
+        var editIssueModel = new CreateIssueModel();
 
-    editIssueModel.setData(editIssueModel.data);
+        editIssueModel.setData(editIssueModel.data);
 
-    this.getView()
-        .setModel(editIssueModel, "editIssue");
+        this.getView()
+            .setModel(editIssueModel, "editIssue");
 
-    this._editIssueModel = editIssueModel;
+        this._editIssueModel = editIssueModel;
 
-    this.getRouter()
-        .attachRouteMatched(this.onRouteMatched, this);
+        this.getRouter()
+            .attachRouteMatched(this.onRouteMatched, this);
 
-  },
-  onRouteMatched: function (e) {
-    "use strict";
+      },
+      onRouteMatched: function (e) {
+        var issueId,
+            model,
+            issueBindingPath;
 
-    var issueId,
-        model,
-        issueBindingPath;
+        if (!e.getParameters().name === "edit") {
+          return;
+        }
 
-    if (!e.getParameters().name === "edit") {
-      return;
-    }
+        issueId = e.getParameters().arguments.issueId;
 
-    issueId = e.getParameters().arguments.issueId;
+        model = this.getView()
+                    .getModel();
 
-    model = this.getView()
-                .getModel();
+        issueBindingPath = model.getBindingPathById(issueId);
 
-    issueBindingPath = model.getBindingPathById(issueId);
-
-    this.loadEditIssueData(issueBindingPath, model);
-  },
-  loadEditIssueData: function (path, model) {
-    "use strict";
-
-    model.read(path, {
-      success: this.setEditIssueData.bind(this),
-      error: this.showBackendError
-    });
-  },
-  setEditIssueData: function (data) {
-    "use strict";
-
-    this._editIssueModel.setProperty("/newIssueObject", data || {});
-
-  },
-  handleCancelPress: function (e) {
-    "use strict";
-
-    this._editIssueModel.initializeNewIssue();
-
-    this.getRouter()
-        .navTo("list");
-  },
-  handleSavePress: function (e) {
-    "use strict";
-
-    this._editIssueModel.validate()
-                        .done(this.saveEditedIssue.bind(this))
-                        .fail(this.displayValidationErrors.bind(this));
-  },
-  saveEditedIssue: function (issueObject) {
-    "use strict";
-
-    this.getView()
-        .getModel()
-        .updateExisting(issueObject, {
-          success: this.onIssueEdited.bind(this, issueObject.ID),
+        this.loadEditIssueData(issueBindingPath, model);
+      },
+      loadEditIssueData: function (path, model) {
+        model.read(path, {
+          success: this.setEditIssueData.bind(this),
           error: this.showBackendError
         });
-  },
-  onIssueEdited: function (issueId) {
-    "use strict";
+      },
+      setEditIssueData: function (data) {
+        this._editIssueModel.setProperty("/newIssueObject", data || {});
 
-    var util = sap.ui.demo.tracker.util.Utility,
-        message = this.getI18nText("ISSUE_UPDATE_SUCCESS_MESSAGE");
+      },
+      handleCancelPress: function (e) {
+        this._editIssueModel.initializeNewIssue();
 
-    this.getRouter()
-        .navTo("detail", {
-          issueId: issueId
-        }, true);
+        this.getRouter()
+            .navTo("list");
+      },
+      handleSavePress: function (e) {
+        this._editIssueModel.validate()
+                            .done(this.saveEditedIssue.bind(this))
+                            .fail(this.displayValidationErrors.bind(this));
+      },
+      saveEditedIssue: function (issueObject) {
+        this.getView()
+            .getModel()
+            .updateExisting(issueObject, {
+              success: this.onIssueEdited.bind(this, issueObject.ID),
+              error: this.showBackendError
+            });
+      },
+      onIssueEdited: function (issueId) {
+        var message = this.getI18nText("ISSUE_UPDATE_SUCCESS_MESSAGE");
 
-    util.displayMessageToast(message);
+        this.getRouter()
+            .navTo("detail", {
+              issueId: issueId
+            }, true);
 
-    this._editIssueModel.initializeNewIssue();
-  },
-  displayValidationErrors: function (errors) {
-    "use strict";
+        Utility.displayMessageToast(message);
 
-    sap.ui.demo.tracker.base.Controller.prototype.displayValidationErrors.apply(this, arguments);
+        this._editIssueModel.initializeNewIssue();
+      },
+      displayValidationErrors: function (errors) {
+        Controller.prototype.displayValidationErrors.apply(this, arguments);
 
-    // TODO refactor this - code repeats with create
-    Object.keys(errors).forEach(function (error) {
-      this._editIssueModel.setProperty("/newIssueValueState/" + error, sap.ui.core.ValueState.Error);
-    }, this);
-  }
-});
+        // TODO refactor this - code repeats with create
+        Object.keys(errors).forEach(function (error) {
+          this._editIssueModel.setProperty("/newIssueValueState/" + error, sap.ui.core.ValueState.Error);
+        }, this);
+      }
+    });
+
+    return controller;
+  }, true /*export*/);
