@@ -1,6 +1,6 @@
 /*global window sap */
 sap.ui.define([
-  "sap/m/MessageToast"], 
+  "sap/m/MessageToast"],
   function (MessageToast) {
     "use strict";
 
