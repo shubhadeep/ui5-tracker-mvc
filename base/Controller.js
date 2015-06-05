@@ -1,13 +1,15 @@
 /*global window sap */
 sap.ui.define(
   ["sap/ui/core/mvc/Controller",
-   "sap/m/MessageBox"],
-  function (Controller, MessageBox) {
+   "sap/m/MessageBox",
+   "sap/m/MessageToast",
+   "sap/ui/core/UIComponent"],
+  function (Controller, MessageBox, MessageToast, UIComponent) {
     "use strict";
 
     var controller = Controller.extend("sap.ui.demo.tracker.base.Controller", {
       getRouter: function () {
-        return  sap.ui.core.UIComponent.getRouterFor(this);
+        return  UIComponent.getRouterFor(this);
       },
       displayValidationErrors: function () {
         MessageBox.show("Validation Error", {
@@ -16,15 +18,15 @@ sap.ui.define(
       },
       showMessageToast: function (message) {
         window.setTimeout(function () {
-            sap.m.MessageToast.show(message);
+            MessageToast.show(message);
           }, 0);
       },
       showBackendError: function (error) {
         MessageBox.show(
           error.responseText, {
-            icon: sap.m.MessageBox.Icon.ERROR,
+            icon: MessageBox.Icon.ERROR,
             title: error.message,
-            actions: [sap.m.MessageBox.Action.OK]
+            actions: [MessageBox.Action.OK]
           }
         );
       },
