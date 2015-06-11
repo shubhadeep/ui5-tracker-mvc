@@ -6,25 +6,7 @@
 	displayBlock="true"
 	xmlns="sap.m">
   <Page>
-    <form:SimpleForm>
-      <form:content>
-        <Title text="{i18n>EDIT_ISSUE_TITLE}" />
-        <Label text="{i18n>ISSUE_DETAIL_TITLE}" />
-        <Input value="{editIssue>/newIssueObject/Name}" valueState="{editIssue>/newIssueValueState/Name}" />
-        <Label text="{i18n>ISSUE_DETAIL_DESCRIPTION}" />
-        <Input value="{editIssue>/newIssueObject/Description}" />
-        <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" />
-        <Select items="{editIssue>/priorities}"
-                selectedKey="{editIssue>/newIssueObject/Priority}" >
-          <core:Item text="{editIssue>priority}" key="{editIssue>key}" />
-        </Select>
-        <Label text="{i18n>ISSUE_DETAIL_OWNER}" />
-        <Select items="{editIssue>/owners}" 
-                selectedKey="{editIssue>/newIssueObject/Owner}">
-          <core:Item text="{editIssue>owner}" key="{editIssue>key}" />
-        </Select>
-      </form:content>
-    </form:SimpleForm>
+    <core:Fragment fragmentName="sap.ui.demo.tracker.view.IssueEditForm" type="XML"/>
     <footer>
       <Bar>
         <contentRight>

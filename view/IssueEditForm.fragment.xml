@@ -1,0 +1,23 @@
+<form:SimpleForm 
+  id="idEditForm"
+  xmlns:form="sap.ui.layout.form"
+  xmlns:core="sap.ui.core"
+  xmlns="sap.m">
+  <form:content>
+    <Title text="{i18n>EDIT_ISSUE_TITLE}" />
+    <Label text="{i18n>ISSUE_DETAIL_TITLE}" />
+    <Input value="{/newIssueObject/Name}" valueState="{/newIssueValueState/Name}" />
+    <Label text="{i18n>ISSUE_DETAIL_DESCRIPTION}" />
+    <Input value="{/newIssueObject/Description}" />
+    <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" />
+    <Select items="{/priorities}"
+            selectedKey="{/newIssueObject/Priority}" >
+      <core:Item text="{priority}" key="{key}" />
+    </Select>
+    <Label text="{i18n>ISSUE_DETAIL_OWNER}" />
+    <Select items="{/owners}" 
+            selectedKey="{/newIssueObject/Owner}">
+      <core:Item text="{owner}" key="{key}" />
+    </Select>
+  </form:content>
+</form:SimpleForm>

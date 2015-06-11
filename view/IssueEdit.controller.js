@@ -12,8 +12,8 @@ sap.ui.define(
 
         editIssueModel.setData(editIssueModel.data);
 
-        this.getView()
-            .setModel(editIssueModel, "editIssue");
+        this.byId("idEditForm")
+            .setModel(editIssueModel);
 
         this._editIssueModel = editIssueModel;
 
