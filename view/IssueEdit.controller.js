@@ -49,13 +49,13 @@ sap.ui.define(
         this._editIssueModel.setProperty("/newIssueObject", data || {});
 
       },
-      handleCancelPress: function (e) {
+      handleCancelPress: function () {
         this._editIssueModel.initializeNewIssue();
 
         this.getRouter()
             .navTo("list");
       },
-      handleSavePress: function (e) {
+      handleSavePress: function () {
         this._editIssueModel.validate()
                             .done(this.saveEditedIssue.bind(this))
                             .fail(this.displayValidationErrors.bind(this));

@@ -10,7 +10,7 @@ sap.ui.define(
         this.getRouter()
             .attachRouteMatched(this.onRouteMatched, this);
       },
-      onRouteMatched: function (e) {
+      onRouteMatched: function () {
         return;
       },
       handleDelete: function (e) {
@@ -31,7 +31,7 @@ sap.ui.define(
               error: this.showBackendError
             });
       },
-      handleCreatePress: function (e) {
+      handleCreatePress: function () {
         this.getRouter()
             .navTo("create");
       },
