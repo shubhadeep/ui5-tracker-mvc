@@ -22,24 +22,17 @@ sap.ui.define(
 
       },
       onRouteMatched: function (e) {
-        var issueId,
-            model,
-            issueBindingPath;
-
         if (!e.getParameters().name === "edit") {
           return;
         }
 
-        issueId = e.getParameters().arguments.issueId;
-
-        model = this.getView()
-                    .getModel();
-
-        issueBindingPath = model.getBindingPathById(issueId);
-
-        this.loadEditIssueData(issueBindingPath, model);
+        this.loadEditIssueData(e.getParameters().arguments.issueId);
       },
-      loadEditIssueData: function (path, model) {
+      loadEditIssueData: function (issueId) {
+        var model = this.getView()
+                        .getModel(),
+            path = model.getBindingPathById(issueId);
+
         model.read(path, {
           success: this.setEditIssueData.bind(this),
           error: this.showBackendError
