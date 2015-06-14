@@ -12,8 +12,11 @@ sap.ui.define(
         return  UIComponent.getRouterFor(this);
       },
       displayValidationErrors: function () {
-        MessageBox.show("Validation Error", {
-          title: "Invalid Inputs"
+        var message = this.getI18nText("GENERIC_VALIDATION_ERROR_MESSAGE"),
+            title = this.getI18nText("GENERIC_VALIDATION_ERROR_TITLE");
+
+        MessageBox.show(message, {
+          title: title
         });
       },
       showMessageToast: function (message) {
