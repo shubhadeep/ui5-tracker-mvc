@@ -4,7 +4,11 @@
 	displayBlock="true"
 	xmlns="sap.m">
   <Page title="{i18n>ISSUELIST_PAGE_TITLE}">
-    <Table items="{path: '/Issues'}" mode="Delete" delete="handleDelete">
+    <Table items="{path: '/Issues'}" 
+           mode="Delete" 
+           delete="handleDelete" 
+           class="sapUiResponsiveMargin" 
+           width="auto">
       <columns>
         <Column>
           <Text text="{i18n>ISSUELIST_ISSUE_COLUMN_HEADER}" />
@@ -23,7 +27,9 @@
     <footer>
       <Bar>
         <contentRight>
-          <Button text="{i18n>ISSUELIST_CREATE_BUTTON_TEXT}" press="handleCreatePress" />
+          <Button text="{i18n>ISSUELIST_CREATE_BUTTON_TEXT}" 
+                  press="handleCreatePress"
+                  icon="sap-icon://create" />
         </contentRight>
       </Bar>
     </footer>
