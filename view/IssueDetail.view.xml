@@ -4,8 +4,8 @@
   controllerName="sap.ui.demo.tracker.view.IssueDetail"
 	displayBlock="true"
 	xmlns="sap.m">
-  <Page>
-    <form:SimpleForm>
+  <Page title="{i18n>ISSUE_DETAIL_PAGE_TITLE}">
+    <form:SimpleForm width="auto" class="sapUiResponsiveMargin">
       <form:content>
         <Label text="{i18n>ISSUE_DETAIL_TITLE}" />
         <Text text="{Name}" />
