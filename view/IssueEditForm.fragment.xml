@@ -2,7 +2,11 @@
   id="idEditForm"
   xmlns:form="sap.ui.layout.form"
   xmlns:core="sap.ui.core"
-  xmlns="sap.m">
+  xmlns="sap.m"
+  width="auto"
+  layout="ResponsiveGridLayout"
+  editable="true"
+  class="sapUiResponsiveMargin">
   <form:content>
     <Label text="{i18n>ISSUE_DETAIL_TITLE}" />
     <Input value="{/newIssueObject/Name}" valueState="{/newIssueValueState/Name}" />
