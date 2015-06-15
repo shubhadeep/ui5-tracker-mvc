@@ -6,4 +6,4 @@ sap.ui.define([],
     return {
       // TODO: Put formatters here
     };
-  }, true /*export*/);
+  });
