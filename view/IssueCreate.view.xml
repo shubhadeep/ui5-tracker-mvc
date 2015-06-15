@@ -5,7 +5,7 @@
   controllerName="sap.ui.demo.tracker.view.IssueCreate"
   displayBlock="true"
   xmlns="sap.m">
-  <Page>
+  <Page title="{i18n>ADD_ISSUE_TITLE}">
     <core:Fragment fragmentName="sap.ui.demo.tracker.view.IssueEditForm" type="XML"/>
     <footer>
       <Bar>
