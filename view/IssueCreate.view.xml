@@ -10,8 +10,12 @@
     <footer>
       <Bar>
         <contentRight>
-          <Button text="{i18n>ISSUECREATE_SAVE_BUTTON_TEXT}" press="handleSavePress" />
-          <Button text="{i18n>ISSUECREATE_CANCEL_BUTTON_TEXT}" press="handleCancelPress" />
+          <Button text="{i18n>ISSUECREATE_SAVE_BUTTON_TEXT}"
+                  press="handleSavePress"
+                  icon="sap-icon://save" />
+          <Button text="{i18n>ISSUECREATE_CANCEL_BUTTON_TEXT}"
+                  press="handleCancelPress"
+                  icon="sap-icon://sys-cancel" />
         </contentRight>
       </Bar>
     </footer>
