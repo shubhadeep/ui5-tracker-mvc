@@ -22,8 +22,12 @@
     <footer>
       <Bar>
         <contentRight>
-          <Button text="{i18n>ISSUEDETAIL_EDIT_BUTTON_TEXT}" press="handleEditPress" />
-          <Button text="{i18n>ISSUEDETAIL_DELETE_BUTTON_TEXT}" press="handleDeletePress" />
+          <Button text="{i18n>ISSUEDETAIL_EDIT_BUTTON_TEXT}"
+                  press="handleEditPress"
+                  icon="sap-icon://edit" />
+          <Button text="{i18n>ISSUEDETAIL_DELETE_BUTTON_TEXT}"
+                  press="handleDeletePress"
+                  icon="sap-icon://delete" />
         </contentRight>
       </Bar>
     </footer>
