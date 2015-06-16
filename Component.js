@@ -1,84 +1,27 @@
 /*global jQuery, sap */
 sap.ui.define([
+  "sap/ui/core/UIComponent",
   "sap/ui/demo/tracker/model/IssueModel",
   "sap/ui/demo/tracker/util/Utility"],
-  function (IssueModel, Utility) {
+  function (UIComponent, IssueModel, Utility) {
     "use strict";
 
-    var component = sap.ui.core.UIComponent.extend("sap.ui.demo.tracker.Component", {
+    var component = UIComponent.extend("sap.ui.demo.tracker.Component", {
       metadata: {
-        name: "Issue Tracker Demo App",
-        version: "1.0",
-        includes: [],
-        dependencies: {
-          libs: ["sap.m", "sap.ui.layout"],
-          components: []
-        },
-
-        rootView: "sap.ui.demo.tracker.view.App",
-
-        config: {
-          resourceBundle: "i18n/messageBundle.properties",
-          serviceConfig: {
-            name: "Northwind",
-            serviceUrl: "/OData/OData.svc/"
-          }
-        },
-
-        routing: {
-          config: {
-            routerClass: sap.ui.core.routing.Router,
-            viewType: "XML",
-            viewPath: "sap.ui.demo.tracker.view",
-            targetAggregation: "pages",
-            targetControl: "idAppControl",
-            clearTarget: false
-          },
-          routes: [
-            {
-              pattern: "",
-              name: "list",
-              view: "IssueList",
-              viewLevel: 0
-            },
-            {
-              pattern: "issue/{issueId}",
-              name: "detail",
-              view: "IssueDetail",
-              viewLevel: 1
-            },
-            {
-              pattern: "edit/{issueId}",
-              name: "edit",
-              view: "IssueEdit",
-              viewLevel: 1
-            },
-            {
-              pattern: "create",
-              name: "create",
-              view: "IssueCreate",
-              viewLevel: 1
-            },
-            {
-              name: "catchAllMaster",
-              view: "NotFound",
-              pattern: ":all*:"
-            }
-          ]
-        }
+        manifest: "json"
       },
 
       init: function() {
         var mConfig, sServiceUrl;
 
-        sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
+        UIComponent.prototype.init.apply(this, arguments);
 
         mConfig = this.getMetadata()
                       .getConfig();
 
         this.setI18nModel(mConfig.resourceBundle);
 
-        sServiceUrl = mConfig.serviceConfig.serviceUrl;
+        sServiceUrl = mConfig.issuesServiceUri;
 
         if (this.useMockData()) {
           this.startMockServer(sServiceUrl);
@@ -86,13 +29,7 @@ sap.ui.define([
 
         this.setModel(new IssueModel(sServiceUrl, true));
 
-        this.initializeRouter(this.getRouter());
-      },
-      destroy: function () {
-        if (this.routeHandler) {
-          this.routeHandler.destroy();
-        }
-        sap.ui.core.UIComponent.destroy.apply(this, arguments);
+        this.getRouter().initialize();
       },
       setI18nModel: function (resourceBundle) {
         // always use absolute paths relative to our own component
@@ -120,12 +57,8 @@ sap.ui.define([
 
         Utility.displayMessageToast("Running in demo mode with mock data.");
 
-      },
-      initializeRouter: function (router) {
-        this.routeHandler = new sap.m.routing.RouteMatchedHandler(router);
-        router.initialize();
       }
     });
 
     return component;
-  }, true /*export*/);
+  });

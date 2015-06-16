@@ -1,0 +1,88 @@
+{
+  "sap.app": {
+    "id": "sap.ui.demo.tracker",
+    "dataSources": {
+      "issues": {
+        "uri": "/OData/OData.svc/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "_version": "0.1",
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    },
+    "supportedThemes": [
+      "sap_blueCrystal"
+    ]
+  },
+  "sap.ui5": {
+    "rootView": "sap.ui.demo.tracker.view.App",
+    "dependencies": {
+      "minUI5Version": "1.28",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "config": {
+      "issuesServiceUri": "/OData/OData.svc/",
+      "resourceBundle": "i18n/messageBundle.properties"
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "sap.ui.demo.tracker.i18n.messageBundle"
+        }
+      }
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "sap.ui.demo.tracker.view",
+        "controlId": "idAppControl",
+        "controlAggregation": "pages"
+      },
+      "routes": [
+        {
+          "pattern": "",
+          "name": "list",
+          "view": "IssueList",
+          "viewLevel": 0
+        },
+        {
+          "pattern": "issue/{issueId}",
+          "name": "detail",
+          "view": "IssueDetail",
+          "viewLevel": 1
+        },
+        {
+          "pattern": "edit/{issueId}",
+          "name": "edit",
+          "view": "IssueEdit",
+          "viewLevel": 1
+        },
+        {
+          "pattern": "create",
+          "name": "create",
+          "view": "IssueCreate",
+          "viewLevel": 1
+        },
+        {
+          "name": "catchAllMaster",
+          "view": "NotFound",
+          "pattern": ":all*:"
+        }
+      ]
+    }
+  }
+}
