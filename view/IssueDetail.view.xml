@@ -5,7 +5,10 @@
 	displayBlock="true"
 	xmlns="sap.m">
   <Page title="{i18n>ISSUE_DETAIL_PAGE_TITLE}">
-    <form:SimpleForm width="auto" class="sapUiResponsiveMargin">
+    <form:SimpleForm 
+      width="auto"
+      layout="ResponsiveGridLayout"
+      class="sapUiResponsiveMargin">
       <form:content>
         <Label text="{i18n>ISSUE_DETAIL_TITLE}" />
         <Text text="{Name}" />
