@@ -1,9 +1,10 @@
 /*global jQuery, sap */
 sap.ui.define([
   "sap/ui/core/UIComponent",
+  "sap/ui/model/resource/ResourceModel",
   "sap/ui/demo/tracker/model/IssueModel",
   "sap/ui/demo/tracker/util/Utility"],
-  function (UIComponent, IssueModel, Utility) {
+  function (UIComponent, ResourceModel, IssueModel, Utility) {
     "use strict";
 
     var component = UIComponent.extend("sap.ui.demo.tracker.Component", {
@@ -35,7 +36,7 @@ sap.ui.define([
         // always use absolute paths relative to our own component
         // (relative paths will fail if running in the Fiori Launchpad)
         var rootPath = jQuery.sap.getModulePath("sap.ui.demo.tracker"),
-            i18nModel = new sap.ui.model.resource.ResourceModel({
+            i18nModel = new ResourceModel({
               bundleUrl: [rootPath, resourceBundle].join("/")
             });
 
