@@ -7,7 +7,8 @@
     <Table items="{path: '/Issues'}" 
            mode="Delete" 
            delete="handleDelete" 
-           class="sapUiResponsiveMargin" 
+           class="sapUiResponsiveMargin"
+           backgroundDesign="Solid"
            width="auto">
       <columns>
         <Column>
