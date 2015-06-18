@@ -10,27 +10,26 @@ sap.ui.define([
       metadata: {
         manifest: "json"
       },
-
       init: function() {
-        var mConfig,
-            sServiceUrl;
+        var mConfig;
 
         UIComponent.prototype.init.apply(this, arguments);
 
         mConfig = this.getMetadata()
                       .getConfig();
 
-        this.setI18nModel(mConfig.resourceBundle);
-
-        sServiceUrl = mConfig.issuesServiceUri;
-
-        if (this.useMockData()) {
-          this.startMockServer(sServiceUrl);
-        }
-
-        this.setModel(new IssueModel(sServiceUrl, true));
+        this.initializeModels(mConfig.issuesServiceUri, mConfig.resourceBundle);
 
         this.getRouter().initialize();
+      },
+      initializeModels: function (serviceUrl, resourceBundle) {
+        this.setI18nModel(resourceBundle);
+
+        if (this.useMockData()) {
+          this.startMockServer(serviceUrl);
+        }
+
+        this.setModel(new IssueModel(serviceUrl, true));
       },
       setI18nModel: function (resourceBundle) {
         // always use absolute paths relative to our own component
