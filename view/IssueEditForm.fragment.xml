@@ -8,11 +8,11 @@
   editable="true"
   class="sapUiResponsiveMargin">
   <form:content>
-    <Label text="{i18n>ISSUE_DETAIL_TITLE}" />
+    <Label text="{i18n>ISSUE_DETAIL_TITLE}" required="true" />
     <Input value="{/newIssueObject/Name}" valueState="{/newIssueValueState/Name}" />
     <Label text="{i18n>ISSUE_DETAIL_DESCRIPTION}" />
     <Input value="{/newIssueObject/Description}" />
-    <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" />
+    <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" required="true" />
     <Select items="{/priorities}"
             selectedKey="{/newIssueObject/Priority}" >
       <core:Item text="{priority}" key="{key}" />
