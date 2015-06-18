@@ -2,9 +2,8 @@
 sap.ui.define([
   "sap/ui/core/UIComponent",
   "sap/ui/model/resource/ResourceModel",
-  "sap/ui/demo/tracker/model/IssueModel",
-  "sap/ui/demo/tracker/util/Utility"],
-  function (UIComponent, ResourceModel, IssueModel, Utility) {
+  "sap/ui/demo/tracker/model/IssueModel"],
+  function (UIComponent, ResourceModel, IssueModel) {
     "use strict";
 
     var component = UIComponent.extend("sap.ui.demo.tracker.Component", {
@@ -13,7 +12,8 @@ sap.ui.define([
       },
 
       init: function() {
-        var mConfig, sServiceUrl;
+        var mConfig,
+            sServiceUrl;
 
         UIComponent.prototype.init.apply(this, arguments);
 
@@ -46,18 +46,8 @@ sap.ui.define([
         return jQuery.sap.getUriParameters().get("responderOn") === "true";
       },
       startMockServer: function (serviceUrl) {
-        var mockServer;
-
-        jQuery.sap.require("sap.ui.app.MockServer");
-        mockServer = new sap.ui.app.MockServer({
-          rootUri: serviceUrl
-        });
-
-        mockServer.simulate("model/metadata.xml", "model/");
-        mockServer.start();
-
-        Utility.displayMessageToast("Running in demo mode with mock data.");
-
+        jQuery.sap.require("sap.ui.demo.tracker.test.Server");
+        sap.ui.demo.tracker.test.Server.start(serviceUrl);
       }
     });
 
