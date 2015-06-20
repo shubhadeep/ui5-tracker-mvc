@@ -1,21 +1,13 @@
 /*global sap */
 sap.ui.define(
   ["sap/ui/demo/tracker/base/Controller",
-   "sap/ui/demo/tracker/model/CreateIssueModel",
    "sap/ui/demo/tracker/util/Utility"],
-  function (Controller, CreateIssueModel, Utility) {
+  function (Controller, Utility) {
     "use strict";
 
-    var controller = Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
+    return Controller.extend("sap.ui.demo.tracker.view.IssueCreate", {
       onInit: function () {
-        var newIssueModel = new CreateIssueModel();
-
-        newIssueModel.setData(newIssueModel.data);
-
-        this.byId("idEditForm")
-            .setModel(newIssueModel);
-
-        this._newIssueModel = newIssueModel;
+        this.createFormView = this.byId("createFormView");
 
         this.getRouter()
             .attachRouteMatched(this.onRouteMatched, this);
@@ -23,27 +15,22 @@ sap.ui.define(
       onRouteMatched: function (e) {
         var routeParameters = e.getParameters();
 
-        if (!routeParameters.name === "create") {
+        if (routeParameters.name !== "create") {
           return;
         }
 
-        this._newIssueModel.initializeNewIssue();
+        this.createFormView.fireEvent("initializeNewIssue");
       },
       handleSavePress: function (e) {
-        this._newIssueModel.validate()
-                           .done(this.createIssue.bind(this))
-                           .fail(this.displayValidationErrors.bind(this));
+        var createModel = this.createFormView.getModel();
+        
+        createModel.validate()
+                 .done(this.createIssue.bind(this))
+                 .fail(this.onValidationfailed.bind(this));
       },
-      displayValidationErrors: function (errors) {
-        "use strict";
-
-        Controller.prototype.displayValidationErrors.apply(this, arguments);
-
-        // TODO refactor this
-        Object.keys(errors).forEach(function (error) {
-          this._newIssueModel.setProperty("/newIssueValueState/" + error, sap.ui.core.ValueState.Error);
-        }, this);
-
+      handleCancelPress: function (e) {
+        this.getRouter()
+            .navTo("list");
       },
       createIssue: function (issueObject) {
         this.getView()
@@ -53,11 +40,8 @@ sap.ui.define(
               error: this.showBackendError
             });
       },
-      handleCancelPress: function (e) {
-        this._newIssueModel.initializeNewIssue();
-
-        this.getRouter()
-            .navTo("list");
+      onValidationfailed: function (errors) {
+        this.createFormView.fireEvent("validationFailed", errors);
       },
       onIssueCreated: function (obj) {
         var message = this.getI18nText("ISSUE_CREATE_SUCCESS_MESSAGE");
@@ -68,10 +52,6 @@ sap.ui.define(
             });
 
         Utility.displayMessageToast(message);
-
-        this._newIssueModel.initializeNewIssue();
       }
     });
-
-    return controller;
-  }, true /*export*/);
+  });

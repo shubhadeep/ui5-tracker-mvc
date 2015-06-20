@@ -6,7 +6,7 @@
   displayBlock="true"
   xmlns="sap.m">
   <Page title="{i18n>ADD_ISSUE_TITLE}">
-    <core:Fragment fragmentName="sap.ui.demo.tracker.view.IssueEditForm" type="XML"/>
+    <mvc:XMLView id="createFormView" viewName="sap.ui.demo.tracker.view.IssueEditForm"/>
     <footer>
       <Bar>
         <contentRight>

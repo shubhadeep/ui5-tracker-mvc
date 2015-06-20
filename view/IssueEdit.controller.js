@@ -1,28 +1,19 @@
 /*global sap */
 sap.ui.define(
   ["sap/ui/demo/tracker/base/Controller",
-   "sap/ui/demo/tracker/model/CreateIssueModel",
    "sap/ui/demo/tracker/util/Utility"],
-  function (Controller, CreateIssueModel, Utility) {
+  function (Controller, Utility) {
     "use strict";
 
-    var controller = Controller.extend("sap.ui.demo.tracker.view.IssueEdit", {
+    return Controller.extend("sap.ui.demo.tracker.view.IssueEdit", {
       onInit: function () {
-        var editIssueModel = new CreateIssueModel();
-
-        editIssueModel.setData(editIssueModel.data);
-
-        this.byId("idEditForm")
-            .setModel(editIssueModel);
-
-        this._editIssueModel = editIssueModel;
+        this.editFormView = this.byId("editFormView");
 
         this.getRouter()
             .attachRouteMatched(this.onRouteMatched, this);
-
       },
       onRouteMatched: function (e) {
-        if (!e.getParameters().name === "edit") {
+        if (e.getParameters().name !== "edit") {
           return;
         }
 
@@ -33,25 +24,26 @@ sap.ui.define(
                         .getModel(),
             path = model.getBindingPathById(issueId);
 
+        this.editFormView.fireEvent("initializeNewIssue");
+
         model.read(path, {
           success: this.setEditIssueData.bind(this),
           error: this.showBackendError
         });
       },
       setEditIssueData: function (data) {
-        this._editIssueModel.setProperty("/newIssueObject", data || {});
-
+        this.editFormView.fireEvent("setEditFormData", data);
       },
       handleCancelPress: function () {
-        this._editIssueModel.initializeNewIssue();
-
         this.getRouter()
             .navTo("list");
       },
       handleSavePress: function () {
-        this._editIssueModel.validate()
-                            .done(this.saveEditedIssue.bind(this))
-                            .fail(this.displayValidationErrors.bind(this));
+        var editModel = this.editFormView.getModel();
+
+        editModel.validate()
+                 .done(this.saveEditedIssue.bind(this))
+                 .fail(this.onValidationfailed.bind(this));
       },
       saveEditedIssue: function (issueObject) {
         this.getView()
@@ -70,18 +62,9 @@ sap.ui.define(
             }, true);
 
         Utility.displayMessageToast(message);
-
-        this._editIssueModel.initializeNewIssue();
       },
-      displayValidationErrors: function (errors) {
-        Controller.prototype.displayValidationErrors.apply(this, arguments);
-
-        // TODO refactor this - code repeats with create
-        Object.keys(errors).forEach(function (error) {
-          this._editIssueModel.setProperty("/newIssueValueState/" + error, sap.ui.core.ValueState.Error);
-        }, this);
+      onValidationfailed: function (errors) {
+        this.editFormView.fireEvent("validationFailed", errors);
       }
     });
-
-    return controller;
-  }, true /*export*/);
+  });
