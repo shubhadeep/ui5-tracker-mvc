@@ -33,7 +33,8 @@ sap.ui.define(
             .setProperty("/newIssueObject", e.getParameters() || {});
       },
       handleRelatedIssuesValueHelpRequest: function (e) {
-        console.log("handleRelatedIssuesValueHelpRequest");
+        // TODO
+        window.console.log("handleRelatedIssuesValueHelpRequest");
       },
       attachRelatedIssuesValidation: function (inputId) {
         this.byId(inputId)

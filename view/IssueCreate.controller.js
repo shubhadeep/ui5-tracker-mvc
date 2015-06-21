@@ -23,7 +23,7 @@ sap.ui.define(
       },
       handleSavePress: function (e) {
         var createModel = this.createFormView.getModel();
-        
+
         createModel.validate()
                  .done(this.createIssue.bind(this))
                  .fail(this.onValidationfailed.bind(this));
