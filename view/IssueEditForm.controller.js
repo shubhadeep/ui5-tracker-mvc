@@ -1,15 +1,15 @@
 /*global sap */
 sap.ui.define(
   ["sap/ui/demo/tracker/base/Controller",
-   "sap/ui/demo/tracker/model/CreateIssueModel",
+   "sap/ui/demo/tracker/model/IssueEditModel",
    "sap/m/MultiInput",
    "sap/m/MessageBox"],
-  function (Controller, EditIssueModel, MultiInput, MessageBox) {
+  function (Controller, IssueEditModel, MultiInput, MessageBox) {
     "use strict";
 
     return Controller.extend("sap.ui.demo.tracker.view.IssueEditForm", {
       onInit: function (e) {
-        var editIssueModel = new EditIssueModel(),
+        var editIssueModel = new IssueEditModel(),
             view = this.getView();
 
         editIssueModel.setData(editIssueModel.data);
@@ -23,7 +23,9 @@ sap.ui.define(
         this.attachRelatedIssuesValidation("relatedIssuesInput");
       },
       initializeNewIssue: function () {
-        this.getView().getModel().initializeNewIssue();
+        this.getView()
+            .getModel()
+            .initializeNewIssue();
       },
       setEditFormData: function (e) {
         this.getView()
