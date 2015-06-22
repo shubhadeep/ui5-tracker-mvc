@@ -58,8 +58,8 @@ sap.ui.define(
         var input = e.getSource();
 
         this.relatedIssuesDialog.open(
-          this, 
-          input.getValue(), 
+          this,
+          input.getValue(),
           this.onRelatedIssuesSelectionDone.bind(this));
       },
       attachRelatedIssuesValidation: function (inputId) {
