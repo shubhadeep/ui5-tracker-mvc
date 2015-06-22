@@ -6,10 +6,10 @@ sap.ui.define(["sap/ui/model/json/JSONModel"],
     var model = JSONModel.extend("sap.ui.demo.tracker.model.CreateIssueModel", {
       data: {
         priorities: [
-          { priority: "Select Priority", key: "" },
-          { priority: "High", key: "1" },
-          { priority: "Medium", key: "2" },
-          { priority: "Low", key: "3" }
+          { key: "" },
+          { key: "1" },
+          { key: "2" },
+          { key: "3" }
         ],
         owners: [
           { owner: "Select owner", key: "" },

@@ -4,6 +4,11 @@ sap.ui.define([],
     "use strict";
 
     return {
-      // TODO: Put formatters here
+      priorityDisplay: function (priorityId) {
+        if (!isNaN(parseInt(priorityId))){
+          return this.getI18nText("PRIORITY_LEVEL_" + priorityId);
+        }
+        return this.getI18nText("SELECT_PRIORITY");
+      }
     };
   });

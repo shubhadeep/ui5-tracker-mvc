@@ -19,7 +19,7 @@
       <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" required="true" />
       <Select items="{/priorities}"
               selectedKey="{/newIssueObject/Priority}" >
-        <core:Item text="{priority}" key="{key}" />
+        <core:Item text="{parts: [{path: 'key'}], formatter: '.formatters.priorityDisplay'}" key="{key}" />
       </Select>
       <Label text="{i18n>ISSUE_DETAIL_OWNER}" />
       <Select items="{/owners}" 

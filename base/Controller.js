@@ -3,14 +3,16 @@ sap.ui.define(
   ["sap/ui/core/mvc/Controller",
    "sap/m/MessageBox",
    "sap/m/MessageToast",
-   "sap/ui/core/UIComponent"],
-  function (Controller, MessageBox, MessageToast, UIComponent) {
+   "sap/ui/core/UIComponent",
+   "sap/ui/demo/tracker/model/Formatter"],
+  function (Controller, MessageBox, MessageToast, UIComponent, Formatters) {
     "use strict";
 
     var controller = Controller.extend("sap.ui.demo.tracker.base.Controller", {
       getRouter: function () {
         return  UIComponent.getRouterFor(this);
       },
+      formatters: Formatters,
       displayValidationErrors: function () {
         var message = this.getI18nText("GENERIC_VALIDATION_ERROR_MESSAGE"),
             title = this.getI18nText("GENERIC_VALIDATION_ERROR_TITLE");

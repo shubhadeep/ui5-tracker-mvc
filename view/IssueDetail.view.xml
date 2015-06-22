@@ -15,7 +15,7 @@
         <Label text="{i18n>ISSUE_DETAIL_DESCRIPTION}" />
         <Text text="{Description}" />
         <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" />
-        <Text text="{Priority}" />
+        <Text text="{parts: [{path: 'Priority'}], formatter: '.formatters.priorityDisplay'}"/>
         <Label text="{i18n>ISSUE_DETAIL_OWNER}" />
         <Text text="{Owner}" />
         <Label text="{i18n>ISSUE_DETAIL_CREATED}" />
