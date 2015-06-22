@@ -28,7 +28,7 @@
       </Select>
       <Label text="{i18n>ISSUE_DETAIL_RELATED_ISSUES}" />
       <MultiInput 
-        id="relatedIssuesInput" 
+        id="idRelatedIssuesInput" 
         showValueHelp="true" 
         valueHelpRequest="handleRelatedIssuesValueHelpRequest" />
     </form:content>

@@ -20,7 +20,7 @@ sap.ui.define(
             .attachEvent("initializeNewIssue", this.initializeNewIssue.bind(this))
             .attachEvent("setEditFormData", this.setEditFormData.bind(this));
 
-        this.attachRelatedIssuesValidation("relatedIssuesInput");
+        this.attachRelatedIssuesValidation("idRelatedIssuesInput");
       },
       initializeNewIssue: function () {
         this.getView()
@@ -32,9 +32,35 @@ sap.ui.define(
             .getModel()
             .setProperty("/newIssueObject", e.getParameters() || {});
       },
+      relatedIssuesDialog: (function () {
+        var dialogView;
+
+        return {
+          open: function (controller, searchValue, onDialogClosed) {
+            if (!dialogView) {
+              dialogView = sap.ui.xmlview("sap.ui.demo.tracker.view.RelatedIssuesDialog");
+              dialogView.setModel(controller.getOwnerComponent().getModel());
+            }
+            dialogView.getController()
+                      .openDialog(searchValue, onDialogClosed);
+          }
+        };
+      })(),
+      onRelatedIssuesSelectionDone: function (selectedValues) {
+        var input = this.byId("idRelatedIssuesInput"),
+            tokens = selectedValues.map(function (id) {
+              return new sap.m.Token({ key: id, text: id });
+            });
+
+        input.setTokens(tokens);
+      },
       handleRelatedIssuesValueHelpRequest: function (e) {
-        // TODO
-        window.console.log("handleRelatedIssuesValueHelpRequest");
+        var input = e.getSource();
+
+        this.relatedIssuesDialog.open(
+          this, 
+          input.getValue(), 
+          this.onRelatedIssuesSelectionDone.bind(this));
       },
       attachRelatedIssuesValidation: function (inputId) {
         this.byId(inputId)
