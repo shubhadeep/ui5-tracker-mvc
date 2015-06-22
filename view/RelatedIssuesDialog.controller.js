@@ -1,8 +1,7 @@
 /*global sap */
 sap.ui.define(
-  ["sap/ui/demo/tracker/base/Controller",
-  "sap/ui/demo/tracker/model/IssueModel"],
-  function (Controller, IssueModel) {
+  ["sap/ui/demo/tracker/base/Controller"],
+  function (Controller) {
     "use strict";
 
     return Controller.extend("sap.ui.demo.tracker.view.RelatedIssuesDialog", {
@@ -33,22 +32,21 @@ sap.ui.define(
 
         if (selectedContexts) {
           selectedIssues = selectedContexts.map(function (context) {
-            // TODO: Shouldnt require IssueModel here - use utility instead
-            return IssueModel.prototype.getIdByBindingPath(context.sPath);
+            return context.getProperty("ID");
           });
 
           if (typeof this.onSelectionDone === "function") {
             this.onSelectionDone(selectedIssues);
           }
         }
-        e.getSource()
-         .getBinding("items")
-         .filter([]);
+        this.resetFilter(e.getSource());
       },
       handleCancel: function (e) {
-        e.getSource()
-         .getBinding("items")
-         .filter([]);
+        this.resetFilter(e.getSource());
+      },
+      resetFilter: function (control) {
+        control.getBinding("items")
+               .filter([]);
       }
     });
   });
