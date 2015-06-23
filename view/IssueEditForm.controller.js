@@ -12,7 +12,6 @@ sap.ui.define(
         var editIssueModel = new IssueEditModel(),
             view = this.getView();
 
-        editIssueModel.setData(editIssueModel.data);
         this.editIssueModel = editIssueModel;
 
         view.setModel(editIssueModel)
