@@ -42,7 +42,10 @@ sap.ui.define(["sap/ui/model/json/JSONModel"],
           Priority: "Priority is required"
         }
       },
-
+      constructor: function () {
+        JSONModel.apply(this, arguments);
+        this.setData(this.data);
+      },
       initializeNewIssue: function () {
         this.setProperty("/newIssueObject", {
           Name: "",
@@ -93,4 +96,4 @@ sap.ui.define(["sap/ui/model/json/JSONModel"],
     });
 
     return model;
-  }, true /* export */);
+  });
