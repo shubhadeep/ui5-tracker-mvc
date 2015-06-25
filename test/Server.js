@@ -11,7 +11,12 @@ sap.ui.define([
           rootUri: serviceUrl
         });
 
-        mockServer.simulate("test/mockdata/metadata.xml", "test/mockdata/");
+        mockServer.simulate("test/mockdata/metadata.xml",
+          {
+            sMockdataBaseUrl: "test/mockdata/",
+            bGenerateMissingMockData: false
+          });
+
         mockServer.start();
 
         window.setTimeout(function () {
