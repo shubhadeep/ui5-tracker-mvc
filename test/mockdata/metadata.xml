@@ -15,8 +15,38 @@
         <Property Name="Owner" Type="Edm.String" Nullable="true" />
         <Property Name="Status" Type="Edm.String" Nullable="false" />
       </EntityType>
+      <EntityType Name="Config">
+        <Key>
+          <PropertyRef Name="ConfingTypeID" />
+        </Key>
+        <Property Name="ConfingTypeID" Type="Edm.Int32" Nullable="false" />
+        <Property Name="Description" Type="Edm.String" Nullable="false" />
+        <NavigationProperty 
+          Name="Items" 
+          Relationship="IssueTracker.Config_ConfigItem_ConfigItem_Config" 
+          ToRole="ConfigItem_Config" 
+          FromRole="Config_ConfigItem" /> 
+      </EntityType>
+      <EntityType Name="ConfigItem">
+        <Key>
+          <PropertyRef Name="Key" />
+        </Key>
+        <Property Name="Key" Type="Edm.String" Nullable="false" />
+        <Property Name="Value" Type="Edm.String" Nullable="true" />
+        <Property Name="Description" Type="Edm.String" Nullable="true" />
+      </EntityType>
+      <Association Name="Config_ConfigItem_ConfigItem_Config">
+        <End EntitySet="ConfigItems" Role="ConfigItem_Config" Multiplicity="*"/>
+        <End EntitySet="Configs" Role="Config_ConfigItem" Multiplicity="*"/>
+      </Association>
       <EntityContainer Name="IssueTrackerService" m:IsDefaultEntityContainer="true">
         <EntitySet Name="Issues" EntityType="IssueTracker.Issue" />
+        <EntitySet Name="Configs" EntityType="IssueTracker.Config" />
+        <EntitySet Name="ConfigItems" EntityType="IssueTracker.ConfigItem" />
+        <AssociationSet Name="Config_ConfigItem_Items" Association="IssueTracker.Config_ConfigItem_ConfigItem_Config">
+          <End Role="Config_ConfigItem" EntitySet="Configs"/>
+          <End Role="ConfigItem_Config" EntitySet="ConfigItems"/>
+        </AssociationSet>
       </EntityContainer>
     </Schema>
   </edmx:DataServices>

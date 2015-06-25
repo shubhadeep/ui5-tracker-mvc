@@ -1,0 +1,10 @@
+{
+  "0": {
+    "ConfingTypeID": 1,
+    "Description": "Priority"
+    },
+  "1": {
+    "ConfingTypeID": 2,
+    "Description": "Other"
+  }
+}

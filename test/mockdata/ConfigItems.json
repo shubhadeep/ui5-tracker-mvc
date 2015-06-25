@@ -1,0 +1,17 @@
+[
+  {
+    "Key": "1",
+    "Value": "High",
+    "Description": "High Priority"
+  },
+  {
+    "Key": "2",
+    "Value": "Medium",
+    "Description": "Medium Priority"
+  },
+  {
+    "Key": "3",
+    "Value": "Low",
+    "Description": "Low Priority"
+  }
+]
