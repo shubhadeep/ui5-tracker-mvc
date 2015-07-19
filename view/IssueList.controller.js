@@ -8,7 +8,8 @@ sap.ui.define(
     var controller = Controller.extend("sap.ui.demo.tracker.view.IssueList", {
       onInit: function () {
         this.getRouter()
-            .attachRouteMatched(this.onRouteMatched, this);
+            .getRoute("list")
+            .attachMatched(this.onRouteMatched, this);
       },
       onRouteMatched: function () {
         return;
