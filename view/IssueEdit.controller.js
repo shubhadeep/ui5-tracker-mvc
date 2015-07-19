@@ -10,14 +10,13 @@ sap.ui.define(
         this.editFormView = this.byId("editFormView");
 
         this.getRouter()
-            .attachRouteMatched(this.onRouteMatched, this);
+            .getRoute("edit")
+            .attachMatched(this.onRouteMatched, this);
       },
       onRouteMatched: function (e) {
-        if (e.getParameters().name !== "edit") {
-          return;
-        }
+        var issueId = e.getParameters().arguments.issueId;
 
-        this.loadEditIssueData(e.getParameters().arguments.issueId);
+        this.loadEditIssueData(issueId);
       },
       loadEditIssueData: function (issueId) {
         var model = this.getView()
