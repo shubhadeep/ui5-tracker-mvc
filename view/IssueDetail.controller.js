@@ -8,17 +8,14 @@ sap.ui.define(
     var controller = Controller.extend("sap.ui.demo.tracker.view.IssueDetail", {
       onInit: function () {
         this.getRouter()
-            .attachRouteMatched(this.onRouteMatched, this);
+            .getRoute("detail")
+            .attachMatched(this.onRouteMatched, this);
       },
       onRouteMatched: function (e) {
         var routeParameters = e.getParameters(),
             issueBindingPath,
             view,
             issueId;
-
-        if (!routeParameters.name === "detail") {
-          return;
-        }
 
         view = this.getView();
         issueId = routeParameters.arguments.issueId;
