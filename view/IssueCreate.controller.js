@@ -10,15 +10,10 @@ sap.ui.define(
         this.createFormView = this.byId("createFormView");
 
         this.getRouter()
-            .attachRouteMatched(this.onRouteMatched, this);
+            .getRoute("create")
+            .attachMatched(this.onRouteMatched, this);
       },
       onRouteMatched: function (e) {
-        var routeParameters = e.getParameters();
-
-        if (routeParameters.name !== "create") {
-          return;
-        }
-
         this.createFormView.fireEvent("initializeNewIssue");
       },
       handleSavePress: function (e) {
