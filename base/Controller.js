@@ -1,4 +1,4 @@
-/*global window sap */
+/*global jQuery sap */
 sap.ui.define(
   ["sap/ui/core/mvc/Controller",
    "sap/m/MessageBox",
@@ -22,9 +22,9 @@ sap.ui.define(
         });
       },
       showMessageToast: function (message) {
-        window.setTimeout(function () {
+        jQuery.sap.delayedCall(0, function () {
             MessageToast.show(message);
-          }, 0);
+          });
       },
       showBackendError: function (error) {
         MessageBox.show(
