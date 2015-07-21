@@ -1,4 +1,4 @@
-/*global window sap */
+/*global jQuery sap */
 sap.ui.define([
   "sap/m/MessageToast"],
   function (MessageToast) {
@@ -6,9 +6,12 @@ sap.ui.define([
 
     return {
       displayMessageToast: function (message) {
-        window.setTimeout(function () {
-          MessageToast.show(message);
-        }, 0);
+        jQuery.sap.delayedCall(0, this, function () {
+            MessageToast.show(message);
+          }
+        );
       }
+
     };
+
   }, true /*export*/);
