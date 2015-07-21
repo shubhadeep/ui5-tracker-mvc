@@ -1,4 +1,4 @@
-/*global sap window*/
+/*global jQuery sap*/
 sap.ui.define([
   "sap/ui/app/MockServer",
   "sap/m/MessageToast"],
@@ -8,20 +8,22 @@ sap.ui.define([
     return {
       start: function (serviceUrl) {
         var mockServer = new MockServer({
-          rootUri: serviceUrl
-        });
+            rootUri: serviceUrl
+          }
+        );
 
-        mockServer.simulate("test/mockdata/metadata.xml",
-          {
+        mockServer.simulate("test/mockdata/metadata.xml", {
             sMockdataBaseUrl: "test/mockdata/",
             bGenerateMissingMockData: false
-          });
+          }
+        );
 
         mockServer.start();
 
-        window.setTimeout(function () {
-          MessageToast.show("Running in demo mode with mock data.");
-        }, 0);
+        jQuery.sap.delayedCall(0, this, function () {
+            MessageToast.show("Running in demo mode with mock data.");
+          }
+        );
       }
     };
   }, true);

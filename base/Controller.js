@@ -12,7 +12,9 @@ sap.ui.define(
       getRouter: function () {
         return  UIComponent.getRouterFor(this);
       },
+
       formatters: Formatters,
+
       displayValidationErrors: function () {
         var message = this.getI18nText("GENERIC_VALIDATION_ERROR_MESSAGE"),
             title = this.getI18nText("GENERIC_VALIDATION_ERROR_TITLE");
@@ -21,11 +23,13 @@ sap.ui.define(
           title: title
         });
       },
+
       showMessageToast: function (message) {
-        jQuery.sap.delayedCall(0, function () {
+        jQuery.sap.delayedCall(0, this, function () {
             MessageToast.show(message);
           });
       },
+
       showBackendError: function (error) {
         MessageBox.show(
           error.responseText, {
@@ -35,6 +39,7 @@ sap.ui.define(
           }
         );
       },
+
       getI18nText: function (key) {
         return this.getOwnerComponent()
                    .getModel("i18n")
