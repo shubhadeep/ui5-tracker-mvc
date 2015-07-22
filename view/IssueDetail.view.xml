@@ -11,15 +11,15 @@
       class="sapUiResponsiveMargin">
       <form:content>
         <Label text="{i18n>ISSUE_DETAIL_TITLE}" />
-        <Text text="{Name}" />
+        <Text text="{detail>/Name}" />
         <Label text="{i18n>ISSUE_DETAIL_DESCRIPTION}" />
-        <Text text="{Description}" />
+        <Text text="{detail>/Description}" />
         <Label text="{i18n>ISSUE_DETAIL_PRIORITY}" />
-        <Text text="{parts: [{path: 'Priority'}], formatter: '.formatters.priorityDisplay'}"/>
+        <Text text="{parts: [{path: 'detail>/Priority'}], formatter: '.formatters.priorityDisplay'}"/>
         <Label text="{i18n>ISSUE_DETAIL_OWNER}" />
-        <Text text="{Owner}" />
+        <Text text="{detail>/Owner}" />
         <Label text="{i18n>ISSUE_DETAIL_CREATED}" />
-        <Text text="{Created}" />
+        <Text text="{detail>/Created}" />
       </form:content>
     </form:SimpleForm>
     <footer>
