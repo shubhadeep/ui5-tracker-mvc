@@ -34,8 +34,8 @@ sap.ui.define([
       /**
        * Initializes models for the component
        * @private
-       * @param {serviceUrl} - Service URL for domain model
-       * @param {resourceBundle} - Resource bundle path for i18n model
+       * @param {string} serviceUrl - Service URL for domain model
+       * @param {string} resourceBundle - Resource bundle path for i18n model
        */
       initializeModels: function (serviceUrl, resourceBundle) {
         this.setI18nModel(resourceBundle);
@@ -50,7 +50,7 @@ sap.ui.define([
       /**
        * Sets internationalization (i18n) model based on resource bundle passed
        * @private
-       * @param {string} - Path of resource bundle properties file
+       * @param {string} resourceBundle - Path of resource bundle properties file
        **/
       setI18nModel: function (resourceBundle) {
         // always use absolute paths relative to our own component
