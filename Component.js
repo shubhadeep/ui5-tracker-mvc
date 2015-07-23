@@ -10,6 +10,14 @@ sap.ui.define([
       metadata: {
         manifest: "json"
       },
+
+      /**
+       * The component is initialized by SAPUI5 automatically during the startup
+       * of the app and calls the init method once.
+       * In this method, the models and router is initialized.
+       * @public
+       * @override
+       */
       init: function() {
         var mConfig;
 
@@ -22,6 +30,13 @@ sap.ui.define([
 
         this.getRouter().initialize();
       },
+
+      /**
+       * Initializes models for the component
+       * @private
+       * @param {serviceUrl} - Service URL for domain model
+       * @param {resourceBundle} - Resource bundle path for i18n model
+       */
       initializeModels: function (serviceUrl, resourceBundle) {
         this.setI18nModel(resourceBundle);
 
@@ -31,6 +46,12 @@ sap.ui.define([
 
         this.setModel(new IssueModel(serviceUrl, true));
       },
+
+      /**
+       * Sets internationalization (i18n) model based on resource bundle passed
+       * @private
+       * @param {string} - Path of resource bundle properties file
+       **/
       setI18nModel: function (resourceBundle) {
         // always use absolute paths relative to our own component
         // (relative paths will fail if running in the Fiori Launchpad)
@@ -41,9 +62,20 @@ sap.ui.define([
 
         this.setModel(i18nModel, "i18n");
       },
+
+      /**
+       * Returns true if Mock server should be used based on URL parameter.
+       * @private
+       **/
       useMockData: function () {
         return jQuery.sap.getUriParameters().get("responderOn") === "true";
       },
+
+      /**
+       * Starts Mock server
+       * @private
+       * @param {string} serviceUrl - Service URL to be mocked by Mock server.
+       **/
       startMockServer: function (serviceUrl) {
         jQuery.sap.require("sap.ui.demo.tracker.test.Server");
         sap.ui.demo.tracker.test.Server.start(serviceUrl);
@@ -51,4 +83,5 @@ sap.ui.define([
     });
 
     return component;
-  });
+  }
+);
