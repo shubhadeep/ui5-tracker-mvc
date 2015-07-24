@@ -36,6 +36,10 @@ sap.ui.define(
             });
       },
 
+      handleNavButtonPress: function () {
+        this.goToList();
+      },
+
       handleEditPress: function (e) {
         var issuePath = e.getSource()
                          .getBindingContext()
@@ -65,8 +69,9 @@ sap.ui.define(
       },
 
       onIssueDataLoadFailed: function (error) {
-        MessageBox.error(this.getI18nText("ISSUE_DETAIL_LOAD_FAIL"), {
-          onClose: this.goToList.bind(this) 
+        MessageBox.error(error.responseText, {
+          title: this.getI18nText("ISSUE_DETAIL_LOAD_FAIL"),
+          onClose: this.goToList.bind(this)
           }
         );
       },

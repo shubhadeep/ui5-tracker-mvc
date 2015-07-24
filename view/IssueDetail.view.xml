@@ -4,7 +4,10 @@
   controllerName="sap.ui.demo.tracker.view.IssueDetail"
 	displayBlock="true"
 	xmlns="sap.m">
-  <Page title="{i18n>ISSUE_DETAIL_PAGE_TITLE}">
+  <Page 
+    title="{i18n>ISSUE_DETAIL_PAGE_TITLE}"
+    showNavButton="true"
+    navButtonPress="handleNavButtonPress">
     <form:SimpleForm 
       width="auto"
       layout="ResponsiveGridLayout"
