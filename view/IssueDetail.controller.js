@@ -18,14 +18,12 @@ sap.ui.define(
             .setModel(new JSONModel({}), "detail");
       },
 
-      onRouteMatched: function (e) {
-        var routeParameters = e.getParameters(),
-            issueBindingPath,
-            view,
-            issueId;
+      onRouteMatched: function (event) {
+        var routeArguments = event.getParameter("arguments"),
+            issueId = routeArguments.issueId,
+            view = this.getView(),
+            issueBindingPath;
 
-        view = this.getView();
-        issueId = routeParameters.arguments.issueId;
         issueBindingPath = view.getModel()
                                .getBindingPathById(issueId);
 
@@ -40,13 +38,8 @@ sap.ui.define(
         this.goToList();
       },
 
-      handleEditPress: function (e) {
-        var issuePath = e.getSource()
-                         .getBindingContext()
-                         .getPath(),
-            issueId = this.getView()
-                          .getModel()
-                          .getIdByBindingPath(issuePath);
+      handleEditPress: function () {
+        var issueId = this.getCurrentIssueId();
 
         this.getRouter()
             .navTo("edit", {
@@ -54,10 +47,10 @@ sap.ui.define(
             });
       },
 
-      handleDeletePress: function (e) {
-        var issuePath = e.getSource()
-                         .getBindingContext()
-                         .getPath();
+      handleDeletePress: function () {
+        var issueId = this.getCurrentIssueId(),
+            model = this.getView().getModel(),
+            issuePath = model.getBindingPathById(issueId);
 
         this.deleteIssue(issuePath);
       },
@@ -74,6 +67,13 @@ sap.ui.define(
           onClose: this.goToList.bind(this)
           }
         );
+      },
+
+      getCurrentIssueId: function () {
+        var view = this.getView(),
+            detailModel = view.getModel("detail");
+
+        return detailModel.getProperty("/ID");
       },
 
       goToList: function () {
@@ -95,8 +95,7 @@ sap.ui.define(
       onIssueDeleted: function () {
         var message = this.getI18nText("ISSUE_DELETE_SUCCESS_MESSAGE");
 
-        this.getRouter()
-            .navTo("list");
+        this.goToList();
 
         Utility.displayMessageToast(message);
       }
